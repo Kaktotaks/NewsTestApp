@@ -77,11 +77,11 @@
 			isa = PBXGroup;
 			children = (
 				E454DB862926A6DE00A03850 /* Constants.swift */,
+				E454DB7629265C4D00A03850 /* Managers */,
 				E454DB7529265C2A00A03850 /* Models */,
 				E454DB7329265C1400A03850 /* ViewControllers */,
 				E454DB7429265C1D00A03850 /* CustomCells */,
 				E454DB7729265CE900A03850 /* Common */,
-				E454DB7629265C4D00A03850 /* Managers */,
 				E454DB65292643D500A03850 /* Main.storyboard */,
 				E454DB6D292643D700A03850 /* Info.plist */,
 			);

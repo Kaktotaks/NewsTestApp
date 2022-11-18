@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pkF-Lz-MM0">
-                                <rect key="frame" x="0.0" y="155" width="393" height="663"/>
+                                <rect key="frame" x="0.0" y="155" width="393" height="697"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="K5a-bx-eAN" id="IPW-MB-cU0"/>
@@ -29,10 +29,10 @@
                         <viewLayoutGuide key="safeArea" id="Rxu-I5-pqw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Rxu-I5-pqw" firstAttribute="bottom" secondItem="pkF-Lz-MM0" secondAttribute="bottom" id="7k3-x5-BRP"/>
                             <constraint firstItem="Rxu-I5-pqw" firstAttribute="trailing" secondItem="pkF-Lz-MM0" secondAttribute="trailing" id="CLb-2X-moP"/>
                             <constraint firstItem="pkF-Lz-MM0" firstAttribute="leading" secondItem="Rxu-I5-pqw" secondAttribute="leading" id="QnY-nW-XV3"/>
                             <constraint firstItem="pkF-Lz-MM0" firstAttribute="top" secondItem="Rxu-I5-pqw" secondAttribute="top" id="TfA-8a-iwR"/>
+                            <constraint firstAttribute="bottom" secondItem="pkF-Lz-MM0" secondAttribute="bottom" id="vIY-1m-FxO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PecodeNews" id="VPV-t4-0hC">

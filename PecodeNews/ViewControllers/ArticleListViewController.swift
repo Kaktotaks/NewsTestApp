@@ -25,8 +25,38 @@ class ArticleListViewController: UIViewController {
         super.viewDidLoad()
 
         configureTableView()
-        getCountryArticles()
+        getCountryArticles(country: .us)
         setUpSerachController()
+        setUpRefreshControl()
+    }
+
+    // Setup refreshControl
+    private func setUpRefreshControl() {
+        articlesTableView.refreshControl = UIRefreshControl()
+        articlesTableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
+    }
+
+    @objc private func didPullRefresh() {
+        // Re-fetch data here
+        print("Start refresh")
+        fetchData()
+    }
+
+    private func fetchData() {
+        self.articlesModel?.removeAll()
+
+        if articlesTableView.refreshControl?.isRefreshing == true {
+            print("refreshing data")
+        } else {
+            print("fetching data")
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+
+            self.getCountryArticles(country: .de)
+            self.articlesTableView?.refreshControl?.endRefreshing()
+        }
     }
 
     // SearchingSetup methods
@@ -42,8 +72,8 @@ class ArticleListViewController: UIViewController {
     }
 
     // APICall methods
-    private func getCountryArticles() {
-        APIService.shared.requestCountryArticles(with: .us) { articles in
+    private func getCountryArticles(country: Countries) {
+        APIService.shared.requestCountryArticles(with: country) { articles in
             self.articlesModel = articles
             self.articlesTableView.reloadData()
         }

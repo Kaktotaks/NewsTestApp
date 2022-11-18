@@ -8,16 +8,16 @@
 import UIKit
 import Alamofire
 
+enum Countries: String {
+    case ua, de, pl, fr, us, be
+}
+
 class APIService {
     static var shared = APIService()
     private init() {}
 
-    enum Country: String {
-        case ua, de, pl, fr, us, be
-    }
-
     // MARK: - Network request for reloading Articles by picked country
-    func requestCountryArticles(with country: Country, completion: @escaping(([ArticlesModel]) -> Void)) {
+    func requestCountryArticles(with country: Countries, completion: @escaping(([ArticlesModel]) -> Void)) {
         let url = "https://newsapi.org/v2/top-headlines?country=\(country.rawValue)&apiKey=\(Constants.secondApiKey)"
         AF.request(url).responseJSON { response in
 
