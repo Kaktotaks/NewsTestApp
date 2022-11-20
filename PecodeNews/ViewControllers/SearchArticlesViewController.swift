@@ -63,6 +63,7 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
         }
 
         cell.configure(with: filteredArticles?[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 

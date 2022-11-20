@@ -102,7 +102,11 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             return UITableViewCell()
         }
 
+        cell.selectionStyle = .none
         cell.configure(with: articlesModel?[indexPath.row])
+        
+        cell.delegate = self
+        cell.tag = indexPath.row
         return cell
     }
 
@@ -129,5 +133,11 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             self.present(noURLalert, animated: true)
             return
         }
+    }
+}
+
+extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
+    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
+        print("Delegate is working ✌🏻. You just tapped on \(item) cell")
     }
 }

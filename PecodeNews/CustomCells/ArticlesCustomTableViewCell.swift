@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol ArticlesCustomTableViewCellDelegate: AnyObject {
+    func saveToFavouritesButtonTapped(tappedForItem item: Int)
+}
+
 class ArticlesCustomTableViewCell: UITableViewCell {
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -15,11 +19,14 @@ class ArticlesCustomTableViewCell: UITableViewCell {
     @IBOutlet private weak var sourceLabel: UILabel!
     @IBOutlet private weak var authorLabel: UILabel!
     @IBOutlet private weak var articleImage: UIImageView!
+    @IBOutlet private weak var saveToFavouritesButton: UIButton!
+    weak var delegate: ArticlesCustomTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        containerView.layer.cornerRadius = 30
+        containerView.layer.cornerRadius = 22
+        saveToFavouritesButton.layer.cornerRadius = 6
     }
 
     // Func configure with home articles
@@ -39,4 +46,9 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         self.articleImage.kf.indicatorType = .activity
         self.articleImage.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
     }
+
+    @IBAction func saveToFavouritesButtonTapped(_ sender: Any) {
+        self.delegate?.saveToFavouritesButtonTapped(tappedForItem: self.tag)
+    }
+
 }
