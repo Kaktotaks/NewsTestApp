@@ -25,6 +25,9 @@
 		E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB972927A99300A03850 /* SearchArticlesViewController.swift */; };
 		E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB9A292942CB00A03850 /* WebViewViewController.swift */; };
 		E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA4292994C900A03850 /* MyAlertManager.swift */; };
+		E454DBA7292A7D7F00A03850 /* FavouriteArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA6292A7D7F00A03850 /* FavouriteArticlesViewController.swift */; };
+		E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */; };
+		E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		E454DB972927A99300A03850 /* SearchArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticlesViewController.swift; sourceTree = "<group>"; };
 		E454DB9A292942CB00A03850 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		E454DBA4292994C900A03850 /* MyAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAlertManager.swift; sourceTree = "<group>"; };
+		E454DBA6292A7D7F00A03850 /* FavouriteArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteArticlesViewController.swift; sourceTree = "<group>"; };
+		E454DBA9292A82CB00A03850 /* PecodeNews.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PecodeNews.xcdatamodel; sourceTree = "<group>"; };
+		E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,7 @@
 				E454DB7729265CE900A03850 /* Common */,
 				E454DB65292643D500A03850 /* Main.storyboard */,
 				E454DB6D292643D700A03850 /* Info.plist */,
+				E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */,
 			);
 			path = PecodeNews;
 			sourceTree = "<group>";
@@ -98,6 +105,7 @@
 				E454DB63292643D500A03850 /* ArticleListViewController.swift */,
 				E454DB972927A99300A03850 /* SearchArticlesViewController.swift */,
 				E454DB9A292942CB00A03850 /* WebViewViewController.swift */,
+				E454DBA6292A7D7F00A03850 /* FavouriteArticlesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -124,6 +132,7 @@
 			children = (
 				E454DB842926A36E00A03850 /* APIService.swift */,
 				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
+				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -254,14 +263,17 @@
 				E454DB64292643D500A03850 /* ArticleListViewController.swift in Sources */,
 				E454DB802926A1D200A03850 /* ArticlesModel.swift in Sources */,
 				E454DB812926A1D200A03850 /* Source.swift in Sources */,
+				E454DBA7292A7D7F00A03850 /* FavouriteArticlesViewController.swift in Sources */,
 				E454DB60292643D500A03850 /* AppDelegate.swift in Sources */,
 				E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */,
+				E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */,
 				E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */,
 				E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */,
 				E454DB822926A1D200A03850 /* ArticlesResponseModel.swift in Sources */,
 				E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */,
 				E454DB852926A36E00A03850 /* APIService.swift in Sources */,
 				E454DB7A29265DBB00A03850 /* ArticlesCustomTableViewCell.swift in Sources */,
+				E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,6 +532,19 @@
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E454DBA9292A82CB00A03850 /* PecodeNews.xcdatamodel */,
+			);
+			currentVersion = E454DBA9292A82CB00A03850 /* PecodeNews.xcdatamodel */;
+			path = PecodeNews.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E454DB54292643D500A03850 /* Project object */;
 }

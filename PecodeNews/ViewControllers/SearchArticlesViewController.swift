@@ -17,6 +17,10 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
 
     private var filteredArticles: [ArticlesModel]? = []
 
+    // swiftlint:disable force_cast
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // swiftlint:enable force_cast
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,6 +68,9 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
 
         cell.configure(with: filteredArticles?[indexPath.row])
         cell.selectionStyle = .none
+
+        cell.delegate = self
+        cell.tag = indexPath.row
         return cell
     }
 
@@ -90,5 +97,30 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
             self.present(noURLalert, animated: true)
             return
         }
+    }
+}
+
+extension SearchArticlesViewController: ArticlesCustomTableViewCellDelegate {
+    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
+        let article = filteredArticles?[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article?.title
+        cdArticle.urlToImage = article?.urlToImage
+        cdArticle.author = article?.author
+        cdArticle.descriptionText = article?.description
+        cdArticle.source = article?.source?.name
+        cdArticle.webURL = article?.url
+
+        // if buttoneState == tapped {} else if buttoneState == untapped {}
+
+        // Save in Core Data action
+        MyCoreDataManager.shared.cdSave(self.context)
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: Constants.TemporaryAlertAnswers.articleAdded,
+            preferredStyle: .actionSheet,
+            forTime: 1.0)
+        present(alert, animated: true)
     }
 }

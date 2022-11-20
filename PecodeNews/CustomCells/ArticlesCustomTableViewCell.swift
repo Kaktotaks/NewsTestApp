@@ -47,8 +47,25 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         self.articleImage.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
     }
 
+    // Func configure with Core Data articles
+    func configureCoreData(with coreDataArticleModel: CDArticle) {
+        self.titleLabel.text = coreDataArticleModel.title
+        self.descriptionLabel.text = coreDataArticleModel.descriptionText
+        self.sourceLabel.text = coreDataArticleModel.source
+        self.authorLabel.text = coreDataArticleModel.author
+
+        guard
+            let imageString = coreDataArticleModel.urlToImage
+        else {
+            return
+        }
+
+        let imageURL = URL(string: imageString)
+        self.articleImage.kf.indicatorType = .activity
+        self.articleImage.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
+        }
+
     @IBAction func saveToFavouritesButtonTapped(_ sender: Any) {
         self.delegate?.saveToFavouritesButtonTapped(tappedForItem: self.tag)
     }
-
 }

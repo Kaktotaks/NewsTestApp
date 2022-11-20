@@ -11,6 +11,9 @@ class ArticleListViewController: UIViewController {
     @IBOutlet private weak var articlesTableView: UITableView!
 
     private var articlesModel: [ArticlesModel]? = []
+    // swiftlint:disable force_cast
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // swiftlint:enable force_cast
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
     private var isSearchBarEmpty: Bool {
@@ -34,6 +37,14 @@ class ArticleListViewController: UIViewController {
     private func setUpRefreshControl() {
         articlesTableView.refreshControl = UIRefreshControl()
         articlesTableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
+    }
+
+    @IBAction func favouriteArticlesNavButTappet(_ sender: Any) {
+        let favArticles = FavouriteArticlesViewController()
+        let navController = UINavigationController(rootViewController: favArticles)
+        navController.modalTransitionStyle = .flipHorizontal
+        navController.modalPresentationStyle = .popover
+        present(navController, animated: true)
     }
 
     @objc private func didPullRefresh() {
@@ -104,7 +115,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
 
         cell.selectionStyle = .none
         cell.configure(with: articlesModel?[indexPath.row])
-        
+
         cell.delegate = self
         cell.tag = indexPath.row
         return cell
@@ -138,6 +149,26 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
     func saveToFavouritesButtonTapped(tappedForItem item: Int) {
-        print("Delegate is working ✌🏻. You just tapped on \(item) cell")
+        let article = articlesModel?[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article?.title
+        cdArticle.urlToImage = article?.urlToImage
+        cdArticle.author = article?.author
+        cdArticle.descriptionText = article?.description
+        cdArticle.source = article?.source?.name
+        cdArticle.webURL = article?.url
+
+        // if buttoneState == tapped {} else if buttoneState == untapped {}
+
+        // Save in Core Data action
+        MyCoreDataManager.shared.cdSave(self.context)
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: Constants.TemporaryAlertAnswers.articleAdded,
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+        present(alert, animated: true)
     }
 }

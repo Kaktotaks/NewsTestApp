@@ -33,5 +33,4 @@ struct ArticlesModel: Codable {
 		publishedAt = try values.decodeIfPresent(String.self, forKey: .publishedAt)
 		content = try values.decodeIfPresent(String.self, forKey: .content)
 	}
-
 }

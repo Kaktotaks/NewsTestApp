@@ -48,7 +48,11 @@
                     <navigationItem key="navigationItem" title="PecodeNews" id="VPV-t4-0hC">
                         <rightBarButtonItems>
                             <barButtonItem image="slider.horizontal.3" catalog="system" style="plain" id="YIO-jA-pLe"/>
-                            <barButtonItem title="Item" image="magazine" catalog="system" style="plain" id="HgF-qi-mkM"/>
+                            <barButtonItem title="Item" image="magazine" catalog="system" style="plain" id="HgF-qi-mkM">
+                                <connections>
+                                    <action selector="favouriteArticlesNavButTappet:" destination="K5a-bx-eAN" id="q31-p3-fQu"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
