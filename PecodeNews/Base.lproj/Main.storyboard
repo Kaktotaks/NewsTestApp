@@ -17,9 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pkF-Lz-MM0">
-                                <rect key="frame" x="0.0" y="155" width="393" height="697"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pkF-Lz-MM0">
+                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5y9-dS-67O">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5y9-dS-67O" id="xml-7v-iXx">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="K5a-bx-eAN" id="IPW-MB-cU0"/>
                                     <outlet property="delegate" destination="K5a-bx-eAN" id="vAS-B7-872"/>
@@ -36,7 +46,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PecodeNews" id="VPV-t4-0hC">
-                        <barButtonItem key="rightBarButtonItem" image="checklist" catalog="system" style="plain" id="YIO-jA-pLe"/>
+                        <rightBarButtonItems>
+                            <barButtonItem image="slider.horizontal.3" catalog="system" style="plain" id="YIO-jA-pLe"/>
+                            <barButtonItem title="Item" image="magazine" catalog="system" style="plain" id="HgF-qi-mkM"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="articlesTableView" destination="pkF-Lz-MM0" id="4mn-fN-RNF"/>
@@ -64,7 +77,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checklist" catalog="system" width="128" height="107"/>
+        <image name="magazine" catalog="system" width="110" height="128"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

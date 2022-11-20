@@ -23,6 +23,8 @@
 		E454DB8A2926B3A000A03850 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E454DB892926B3A000A03850 /* Alamofire */; };
 		E454DB8D2926B69900A03850 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E454DB8C2926B69900A03850 /* Kingfisher */; };
 		E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB972927A99300A03850 /* SearchArticlesViewController.swift */; };
+		E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB9A292942CB00A03850 /* WebViewViewController.swift */; };
+		E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA4292994C900A03850 /* MyAlertManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		E454DB842926A36E00A03850 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		E454DB862926A6DE00A03850 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E454DB972927A99300A03850 /* SearchArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticlesViewController.swift; sourceTree = "<group>"; };
+		E454DB9A292942CB00A03850 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		E454DBA4292994C900A03850 /* MyAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 			children = (
 				E454DB63292643D500A03850 /* ArticleListViewController.swift */,
 				E454DB972927A99300A03850 /* SearchArticlesViewController.swift */,
+				E454DB9A292942CB00A03850 /* WebViewViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				E454DB842926A36E00A03850 /* APIService.swift */,
+				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -249,9 +255,11 @@
 				E454DB802926A1D200A03850 /* ArticlesModel.swift in Sources */,
 				E454DB812926A1D200A03850 /* Source.swift in Sources */,
 				E454DB60292643D500A03850 /* AppDelegate.swift in Sources */,
+				E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */,
 				E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */,
 				E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */,
 				E454DB822926A1D200A03850 /* ArticlesResponseModel.swift in Sources */,
+				E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */,
 				E454DB852926A36E00A03850 /* APIService.swift in Sources */,
 				E454DB7A29265DBB00A03850 /* ArticlesCustomTableViewCell.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,

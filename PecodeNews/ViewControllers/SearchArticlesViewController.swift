@@ -69,4 +69,25 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         400
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if
+            let stringURL = filteredArticles?[indexPath.row].url,
+            let artilleURL = URL(string: stringURL) {
+
+            let articleTitle = filteredArticles?[indexPath.row].title
+            let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
+            let navVC = UINavigationController(rootViewController: webVC)
+            self.present(navVC, animated: true)
+        } else {
+            print("No url was found")
+            let noURLalert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                title: Constants.TemporaryAlertAnswers.NoURLArticle,
+                message: nil, preferredStyle: .actionSheet,
+                forTime: 1.0
+            )
+            self.present(noURLalert, animated: true)
+            return
+        }
+    }
 }
