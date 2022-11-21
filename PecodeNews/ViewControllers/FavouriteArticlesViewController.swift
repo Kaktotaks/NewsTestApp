@@ -11,6 +11,7 @@ class FavouriteArticlesViewController: UIViewController {
     @IBOutlet weak var articlesTableView: UITableView!
 
     private var favouriteArticles: [CDArticle] = []
+    var articleToRemove: CDArticle?
 
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -81,9 +82,7 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
 
         cell.selectionStyle = .none
         cell.configureCoreData(with: favouriteArticles[indexPath.row])
-
-//        cell.delegate = self
-//        cell.tag = indexPath.row
+        cell.saveToFavouritesButton.isHidden = true
 
         return cell
     }
@@ -94,6 +93,7 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
 
             // Wich present to remove
             let articlesToRemove = self.favouriteArticles[indexPath.row]
+            self.articleToRemove = articlesToRemove
 
             // Remove the articles + Save the data + Re-fetch the data
             MyCoreDataManager.shared.deleteCoreDataObjct(object: articlesToRemove, context: self.context) {

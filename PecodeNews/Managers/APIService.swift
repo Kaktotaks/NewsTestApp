@@ -20,8 +20,6 @@ class APIService {
     func requestCountryArticles(with country: Countries, completion: @escaping(([ArticlesModel]) -> Void)) {
         let url = "https://newsapi.org/v2/top-headlines?country=\(country.rawValue)&apiKey=\(Constants.secondApiKey)"
         AF.request(url).responseJSON { response in
-            
-//            response.request?.httpBody
 
             switch response.result {
             case .success( _):

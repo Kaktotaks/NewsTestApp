@@ -15,7 +15,7 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
         return value
     }()
 
-    private var filteredArticles: [ArticlesModel]? = []
+    private var filteredArticles: [ArticlesModel] = []
 
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -58,7 +58,7 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
 
 extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.filteredArticles?.count ?? 5
+        self.filteredArticles.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,7 +66,7 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
             return UITableViewCell()
         }
 
-        cell.configure(with: filteredArticles?[indexPath.row])
+        cell.configure(with: filteredArticles[indexPath.row])
         cell.selectionStyle = .none
 
         cell.delegate = self
@@ -80,10 +80,10 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if
-            let stringURL = filteredArticles?[indexPath.row].url,
+            let stringURL = filteredArticles[indexPath.row].url,
             let artilleURL = URL(string: stringURL) {
 
-            let articleTitle = filteredArticles?[indexPath.row].title
+            let articleTitle = filteredArticles[indexPath.row].title
             let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
             let navVC = UINavigationController(rootViewController: webVC)
             self.present(navVC, animated: true)
@@ -101,17 +101,19 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
 }
 
 extension SearchArticlesViewController: ArticlesCustomTableViewCellDelegate {
-    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
-        let article = filteredArticles?[item]
-        let cdArticle = CDArticle(context: self.context)
-        cdArticle.title = article?.title
-        cdArticle.urlToImage = article?.urlToImage
-        cdArticle.author = article?.author
-        cdArticle.descriptionText = article?.description
-        cdArticle.source = article?.source?.name
-        cdArticle.webURL = article?.url
+    func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
+        //
+    }
 
-        // if buttoneState == tapped {} else if buttoneState == untapped {}
+    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
+        let article = filteredArticles[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article.title
+        cdArticle.urlToImage = article.urlToImage
+        cdArticle.author = article.author
+        cdArticle.descriptionText = article.description
+        cdArticle.source = article.source?.name
+        cdArticle.webURL = article.url
 
         // Save in Core Data action
         MyCoreDataManager.shared.cdSave(self.context)

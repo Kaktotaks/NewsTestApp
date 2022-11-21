@@ -10,7 +10,8 @@ import UIKit
 class ArticleListViewController: UIViewController {
     @IBOutlet private weak var articlesTableView: UITableView!
 
-    private var articlesModel: [ArticlesModel]? = []
+    private var articlesModel: [ArticlesModel] = []
+
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
@@ -46,18 +47,18 @@ class ArticleListViewController: UIViewController {
     }
 
     private func fetchData() {
-        self.articlesModel?.removeAll()
-
-        if articlesTableView.refreshControl?.isRefreshing == true {
-            print("refreshing data")
-        } else {
-            print("fetching data")
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.getCountryArticles(country: .de)
+            self.articlesModel.removeAll()
+
+            if self.articlesTableView.refreshControl?.isRefreshing == true {
+                print("refreshing data")
+            } else {
+                print("fetching data")
+            }
+
+            self.getCountryArticles(country: .us)
             self.articlesTableView?.refreshControl?.endRefreshing()
         }
     }
@@ -71,17 +72,14 @@ class ArticleListViewController: UIViewController {
         searchController.searchBar.placeholder = "Search for News"
         navigationItem.searchController = searchController
         definesPresentationContext = true
-//        resultVC.delegate = self
     }
 
     // APICall methods
     private func getCountryArticles(country: Countries) {
-        DispatchQueue.main.async {
             APIService.shared.requestCountryArticles(with: country) { articles in
                 self.articlesModel = articles
                 self.articlesTableView.reloadData()
             }
-        }
     }
 
     // TableView methods
@@ -93,7 +91,7 @@ class ArticleListViewController: UIViewController {
 
 extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.articlesModel?.count ?? 5
+        self.articlesModel.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,7 +104,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
         }
 
         cell.selectionStyle = .none
-        cell.configure(with: articlesModel?[indexPath.row])
+        cell.configure(with: articlesModel[indexPath.row])
 
         cell.delegate = self
         cell.tag = indexPath.row
@@ -119,10 +117,10 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if
-            let stringURL = articlesModel?[indexPath.row].url,
+            let stringURL = articlesModel[indexPath.row].url,
             let artilleURL = URL(string: stringURL) {
 
-            let articleTitle = articlesModel?[indexPath.row].title
+            let articleTitle = articlesModel[indexPath.row].title
             let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
             let navVC = UINavigationController(rootViewController: webVC)
             self.present(navVC, animated: true)
@@ -140,17 +138,33 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
-    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
-        let article = articlesModel?[item]
-        let cdArticle = CDArticle(context: self.context)
-        cdArticle.title = article?.title
-        cdArticle.urlToImage = article?.urlToImage
-        cdArticle.author = article?.author
-        cdArticle.descriptionText = article?.description
-        cdArticle.source = article?.source?.name
-        cdArticle.webURL = article?.url
+    func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
+        let favoutiteVC = FavouriteArticlesViewController()
+        if
+            let storedArticle = favoutiteVC.articleToRemove {
+            MyCoreDataManager.shared.deleteCoreDataObjct(object: storedArticle, context: self.context) {
+                //
+            }
+        }
 
-        // if buttoneState == tapped {} else if buttoneState == untapped {}
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: "Aticle was deleted!",
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+        present(alert, animated: true)
+    }
+
+    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
+        let article = articlesModel[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article.title
+        cdArticle.urlToImage = article.urlToImage
+        cdArticle.author = article.author
+        cdArticle.descriptionText = article.description
+        cdArticle.source = article.source?.name
+        cdArticle.webURL = article.url
 
         // Save in Core Data action
         MyCoreDataManager.shared.cdSave(self.context)

@@ -10,6 +10,7 @@ import Kingfisher
 
 protocol ArticlesCustomTableViewCellDelegate: AnyObject {
     func saveToFavouritesButtonTapped(tappedForItem item: Int)
+    func deleteFromFavouritesButtonTapped(tappedForItem item: Int)
 }
 
 class ArticlesCustomTableViewCell: UITableViewCell {
@@ -19,8 +20,10 @@ class ArticlesCustomTableViewCell: UITableViewCell {
     @IBOutlet private weak var sourceLabel: UILabel!
     @IBOutlet private weak var authorLabel: UILabel!
     @IBOutlet private weak var articleImage: UIImageView!
-    @IBOutlet private weak var saveToFavouritesButton: UIButton!
+    @IBOutlet weak var saveToFavouritesButton: UIButton!
     weak var delegate: ArticlesCustomTableViewCellDelegate?
+
+    public var buttonTogled = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,6 +69,14 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         }
 
     @IBAction func saveToFavouritesButtonTapped(_ sender: Any) {
-        self.delegate?.saveToFavouritesButtonTapped(tappedForItem: self.tag)
+        if buttonTogled == false {
+            buttonTogled = true
+            saveToFavouritesButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            self.delegate?.saveToFavouritesButtonTapped(tappedForItem: self.tag)
+        } else {
+            buttonTogled = false
+            saveToFavouritesButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+            self.delegate?.deleteFromFavouritesButtonTapped(tappedForItem: self.tag)
+        }
     }
 }
