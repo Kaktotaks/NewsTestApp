@@ -8,11 +8,7 @@
 import UIKit
 
 class FavouriteArticlesViewController: UIViewController {
-    private var articlesTableView: UITableView = {
-       let tableView = UITableView()
-       tableView.separatorStyle = .none
-       return tableView
-   }()
+    @IBOutlet weak var articlesTableView: UITableView!
 
     private var favouriteArticles: [CDArticle] = []
 
@@ -24,8 +20,13 @@ class FavouriteArticlesViewController: UIViewController {
         super.viewDidLoad()
 
         setUpArticlesTableView()
-        self.favouriteArticles = getArticles()
         configureNavigationBar()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.favouriteArticles = getArticles()
     }
 
     private func configureNavigationBar() {
@@ -35,12 +36,6 @@ class FavouriteArticlesViewController: UIViewController {
             style: .plain,
             target: self,
             action: #selector(didTapClearAllButton))
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Back",
-            style: .plain,
-            target: self,
-            action: #selector(didTapBackButton))
     }
 
     @objc private func didTapClearAllButton() {
@@ -49,17 +44,9 @@ class FavouriteArticlesViewController: UIViewController {
         }
     }
 
-    @objc private func didTapBackButton() {
-        self.dismiss(animated: true)
-    }
-
     private func setUpArticlesTableView() {
         let nib = UINib(nibName: "ArticlesCustomTableViewCell", bundle: nil)
         self.articlesTableView.register(nib, forCellReuseIdentifier: "ArticlesCustomTableViewCell")
-        view.addSubview(articlesTableView)
-        articlesTableView.delegate = self
-        articlesTableView.dataSource = self
-        articlesTableView.frame = view.bounds
     }
 
     private func getArticles() -> [CDArticle] {
@@ -94,7 +81,7 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
 
         cell.selectionStyle = .none
         cell.configureCoreData(with: favouriteArticles[indexPath.row])
-        
+
 //        cell.delegate = self
 //        cell.tag = indexPath.row
 

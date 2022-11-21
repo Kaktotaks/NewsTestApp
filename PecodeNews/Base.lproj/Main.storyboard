@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BQp-MF-L4N">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8jm-Es-KC5">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -46,14 +46,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PecodeNews" id="VPV-t4-0hC">
-                        <rightBarButtonItems>
-                            <barButtonItem image="slider.horizontal.3" catalog="system" style="plain" id="YIO-jA-pLe"/>
-                            <barButtonItem title="Item" image="magazine" catalog="system" style="plain" id="HgF-qi-mkM">
-                                <connections>
-                                    <action selector="favouriteArticlesNavButTappet:" destination="K5a-bx-eAN" id="q31-p3-fQu"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="slider.horizontal.3" catalog="system" style="plain" id="YIO-jA-pLe"/>
                     </navigationItem>
                     <connections>
                         <outlet property="articlesTableView" destination="pkF-Lz-MM0" id="4mn-fN-RNF"/>
@@ -63,10 +56,63 @@
             </objects>
             <point key="canvasLocation" x="-515.26717557251902" y="-6.3380281690140849"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favourite Articles-->
+        <scene sceneID="fOy-2Z-m6p">
+            <objects>
+                <navigationController id="cDO-wC-kN1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favourite Articles" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="GQT-KS-icO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xeW-cX-Lin">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="AM2-VF-pFf" kind="relationship" relationship="rootViewController" id="onG-dt-jLm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j05-Mg-hIT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1266" y="741"/>
+        </scene>
+        <!--Favourite Articles View Controller-->
+        <scene sceneID="IOp-fd-Uor">
+            <objects>
+                <viewController id="AM2-VF-pFf" customClass="FavouriteArticlesViewController" customModule="PecodeNews" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="C0X-XX-DeT">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="MdK-wi-sYO">
+                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="AM2-VF-pFf" id="oeO-0e-2il"/>
+                                    <outlet property="delegate" destination="AM2-VF-pFf" id="W8X-hf-Rec"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="brQ-pV-bxf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="MdK-wi-sYO" firstAttribute="top" secondItem="brQ-pV-bxf" secondAttribute="top" id="4Q7-cO-pD1"/>
+                            <constraint firstAttribute="bottom" secondItem="MdK-wi-sYO" secondAttribute="bottom" id="JSL-dq-cGK"/>
+                            <constraint firstItem="MdK-wi-sYO" firstAttribute="trailing" secondItem="brQ-pV-bxf" secondAttribute="trailing" id="YTS-ym-gL0"/>
+                            <constraint firstItem="MdK-wi-sYO" firstAttribute="leading" secondItem="brQ-pV-bxf" secondAttribute="leading" id="fdJ-Gw-CXK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="itT-Cg-CH7"/>
+                    <connections>
+                        <outlet property="articlesTableView" destination="MdK-wi-sYO" id="K1e-Mq-HSh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6zw-Mx-pEz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-515.26717557251902" y="740.84507042253529"/>
+        </scene>
+        <!--Home-->
         <scene sceneID="OWv-Ea-A6D">
             <objects>
                 <navigationController id="BQp-MF-L4N" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="newspaper" catalog="system" selectedImage="newspaper.fill" id="UTo-4U-YFK"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="RPc-mk-cps">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -79,12 +125,40 @@
             </objects>
             <point key="canvasLocation" x="-1265" y="-6"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="CJe-ac-boa">
+            <objects>
+                <tabBarController id="8jm-Es-KC5" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="centered" id="1hq-9h-5WU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <tabBarAppearance key="scrollEdgeAppearance" backgroundEffect="systemUltraThinMaterial" backgroundImageContentMode="scaleAspectFit">
+                            <color key="selectionIndicatorTintColor" systemColor="tertiarySystemFillColor"/>
+                        </tabBarAppearance>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BQp-MF-L4N" kind="relationship" relationship="viewControllers" id="NYq-ZT-G5p"/>
+                        <segue destination="cDO-wC-kN1" kind="relationship" relationship="viewControllers" id="Rp7-uU-ORd"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fal-2M-Y4u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2379" y="315"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="magazine" catalog="system" width="110" height="128"/>
+        <image name="bookmark" catalog="system" width="110" height="128"/>
+        <image name="bookmark.fill" catalog="system" width="110" height="128"/>
+        <image name="newspaper" catalog="system" width="128" height="111"/>
+        <image name="newspaper.fill" catalog="system" width="128" height="112"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemFillColor">
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

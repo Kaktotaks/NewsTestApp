@@ -39,14 +39,6 @@ class ArticleListViewController: UIViewController {
         articlesTableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
     }
 
-    @IBAction func favouriteArticlesNavButTappet(_ sender: Any) {
-        let favArticles = FavouriteArticlesViewController()
-        let navController = UINavigationController(rootViewController: favArticles)
-        navController.modalTransitionStyle = .flipHorizontal
-        navController.modalPresentationStyle = .popover
-        present(navController, animated: true)
-    }
-
     @objc private func didPullRefresh() {
         // Re-fetch data here
         print("Start refresh")
