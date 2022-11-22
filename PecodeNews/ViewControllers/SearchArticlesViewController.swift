@@ -44,7 +44,7 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
         }
         print(query)
 
-        RestService.shared.getAllTopArticles(country: nil, category: nil, query: query.trimmingCharacters(in: .whitespaces), pageNumber: 1, limit: 5) { articles in
+        RestService.shared.getAllTopArticles(country: nil, category: nil, query: query.trimmingCharacters(in: .whitespaces), page: 1, limit: 5) { articles in
             self.filteredArticles = articles
             self.filteredArticlesTableView.reloadData()
         }

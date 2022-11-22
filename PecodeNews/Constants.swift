@@ -12,4 +12,7 @@ enum Constants {
         static let articleAdded = "Article was successfully added to favourites!"
         static let NoURLArticle = "This article has no url!"
     }
+
+    static var totalPage = 1
+    static var currentPage = 1
 }

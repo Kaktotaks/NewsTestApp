@@ -21,7 +21,10 @@ class RestService {
         static let mainURL = "https://newsapi.org/v2/top-headlines?"
         static let apiKey = "a948c415d8ca45329ec98ab6850cdc31"
         static let secondApiKey = "950819fa59cc45119d45f608793c70da"
+        static let thirdApiKey = "9c262814018e40bb8d6ed98ff3b866d4"
     }
+
+    public var isPaginating = false
 
     static let shared: RestService = .init()
 
@@ -36,7 +39,7 @@ class RestService {
         completion: @escaping(([ArticlesModel]) -> Void)
     ) {
 
-        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.apiKey)"
+        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.thirdApiKey)"
         if let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
 
             AF.request(
@@ -66,14 +69,15 @@ class RestService {
     }
 
     func getAllTopArticles(
+        pagination: Bool = false,
         country: Countries? = nil,
         category: Categories? = nil,
         query: String? = nil,
-        pageNumber: Int = 1,
+        page: Int = 1,
         limit: Int = 5,
         completionHandler: @escaping(([ArticlesModel]) -> Void)
     ) {
-        var path = "pageSize=\(limit)&page=\(pageNumber)"
+        var path = "pageSize=\(limit)&page=\(page)"
 
         if let queryKey = query, !queryKey.isEmpty {
             path = "\(path)&q=\(queryKey)"
@@ -89,8 +93,15 @@ class RestService {
 
         print(path)
 
-        getJsonResponse(path) { articles in
-            completionHandler(articles)
+        if pagination {
+            isPaginating = true
         }
+
+            self.getJsonResponse(path) { articles in
+                completionHandler(articles)
+                if pagination {
+                    self.isPaginating = false
+                }
+            }
     }
 }

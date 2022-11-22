@@ -30,32 +30,11 @@ class ArticleListViewController: UIViewController {
         super.viewDidLoad()
 
         configureTableView()
-        getArticles()
+//        getArticles(pagination: false, page: 1)
+        refresArticles()
         setUpSerachController()
         setUpRefreshControl()
         scrollViewDidScroll(articlesTableView)
-    }
-
-    // Configure aperiance upButton + settingView
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        DispatchQueue.main.async { [weak self] in
-            guard
-                let self = self
-            else {
-                return
-            }
-
-            let startPoint = scrollView.contentOffset.y
-            let scrollHeight = scrollView.frame.height
-
-            if startPoint >= abs(scrollHeight) {
-                self.articleSettingsView.isHidden = true
-                self.upNavButton.isHidden = false
-            } else {
-                self.articleSettingsView.isHidden = false
-                self.upNavButton.isHidden = true
-            }
-        }
     }
 
     @IBAction func upnavButtonTapped(_ sender: Any) {
@@ -74,25 +53,19 @@ class ArticleListViewController: UIViewController {
     }
 
     @objc private func didPullRefresh() {
-        // Re-fetch data here
-        print("Start refresh")
-        fetchData()
+        refresArticles()
     }
 
-    private func fetchData() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+    private func refresArticles() {
+        // refresh data here
+        DispatchQueue.main.async {
+            self.articlesTableView.refreshControl?.beginRefreshing()
+            print("Start refresh")
 
             self.articlesModel.removeAll()
-
-            if self.articlesTableView.refreshControl?.isRefreshing == true {
-                print("refreshing data")
-            } else {
-                print("fetching data")
-            }
-
-            self.getArticles()
-            self.articlesTableView?.refreshControl?.endRefreshing()
+            Constants.currentPage = 1
+            self.getArticles(page: Constants.currentPage)
+            self.articlesTableView.refreshControl?.endRefreshing()
         }
     }
 
@@ -108,12 +81,23 @@ class ArticleListViewController: UIViewController {
     }
 
     // APICall methods
-    private func getArticles() {
-        RestService.shared.getAllTopArticles(country: .us, category: nil, query: nil, pageNumber: 1, limit: 5) { articles in
-            self.articlesModel = articles
-            self.articlesTableView.reloadData()
+    private func getArticles(pagination: Bool = false, page: Int = Constants.currentPage) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 2), execute: { [ weak self ] in
+            RestService.shared.getAllTopArticles(pagination: pagination, country: .us, category: nil, query: nil, page: page, limit: 10) { [weak self] articles in
+
+                guard
+                    let self = self
+                else { return }
+
+                //                self.articlesModel.removeAll()
+                self.articlesModel.append(contentsOf: articles)
+                DispatchQueue.main.async {
+                    self.articlesTableView.reloadData()
+                    self.articlesTableView.tableFooterView = nil
+                }
+            }
+        })
         }
-    }
 
     // TableView methods
     private func configureTableView() {
@@ -122,26 +106,55 @@ class ArticleListViewController: UIViewController {
     }
 }
 
+// MARK: - Work with TableView
 extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.articlesModel.count
     }
 
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+
+        return footerView
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: "ArticlesCustomTableViewCell"
-            ) as? ArticlesCustomTableViewCell
-        else {
-            return UITableViewCell()
+            guard
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "ArticlesCustomTableViewCell"
+                ) as? ArticlesCustomTableViewCell
+            else {
+                return UITableViewCell()
+            }
+
+            cell.selectionStyle = .none
+            cell.configure(with: articlesModel[indexPath.row])
+
+            cell.delegate = self
+            cell.tag = indexPath.row
+            return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if Constants.currentPage >= Constants.totalPage && indexPath.row == articlesModel.count - 1 {
+            Constants.currentPage += 1
+            print("Current page now is: \(Constants.currentPage)")
+
+            var isPaginatint = RestService.shared.isPaginating
+
+            guard !isPaginatint else {
+                print("We are already paginating more data")
+                return
+            }
+
+            self.articlesTableView.tableFooterView = createSpinnerFooter()
+            getArticles(page: Constants.currentPage)
         }
-
-        cell.selectionStyle = .none
-        cell.configure(with: articlesModel[indexPath.row])
-
-        cell.delegate = self
-        cell.tag = indexPath.row
-        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -168,8 +181,31 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             return
         }
     }
+
+    // Configure aperiance upButton + settingView
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        DispatchQueue.main.async { [weak self] in
+            guard
+                let self = self
+            else {
+                return
+            }
+
+            let startPoint = scrollView.contentOffset.y
+            let scrollHeight = scrollView.frame.height
+
+            if startPoint >= abs(scrollHeight) {
+                self.articleSettingsView.isHidden = true
+                self.upNavButton.isHidden = false
+            } else {
+                self.articleSettingsView.isHidden = false
+                self.upNavButton.isHidden = true
+            }
+        }
+    }
 }
 
+// MARK: - Work with Delegates
 extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
     func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
         let favoutiteVC = FavouriteArticlesViewController()
