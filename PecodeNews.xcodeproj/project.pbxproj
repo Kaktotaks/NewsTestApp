@@ -18,7 +18,6 @@
 		E454DB802926A1D200A03850 /* ArticlesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB7D2926A1D200A03850 /* ArticlesModel.swift */; };
 		E454DB812926A1D200A03850 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB7E2926A1D200A03850 /* Source.swift */; };
 		E454DB822926A1D200A03850 /* ArticlesResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB7F2926A1D200A03850 /* ArticlesResponseModel.swift */; };
-		E454DB852926A36E00A03850 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB842926A36E00A03850 /* APIService.swift */; };
 		E454DB872926A6DE00A03850 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB862926A6DE00A03850 /* Constants.swift */; };
 		E454DB8A2926B3A000A03850 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E454DB892926B3A000A03850 /* Alamofire */; };
 		E454DB8D2926B69900A03850 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E454DB8C2926B69900A03850 /* Kingfisher */; };
@@ -28,6 +27,7 @@
 		E454DBA7292A7D7F00A03850 /* FavouriteArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA6292A7D7F00A03850 /* FavouriteArticlesViewController.swift */; };
 		E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */; };
 		E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */; };
+		E4793526292CD47C00DBCF13 /* RestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793525292CD47C00DBCF13 /* RestService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,6 @@
 		E454DB7D2926A1D200A03850 /* ArticlesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesModel.swift; sourceTree = "<group>"; };
 		E454DB7E2926A1D200A03850 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		E454DB7F2926A1D200A03850 /* ArticlesResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesResponseModel.swift; sourceTree = "<group>"; };
-		E454DB842926A36E00A03850 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		E454DB862926A6DE00A03850 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E454DB972927A99300A03850 /* SearchArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticlesViewController.swift; sourceTree = "<group>"; };
 		E454DB9A292942CB00A03850 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		E454DBA6292A7D7F00A03850 /* FavouriteArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteArticlesViewController.swift; sourceTree = "<group>"; };
 		E454DBA9292A82CB00A03850 /* PecodeNews.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PecodeNews.xcdatamodel; sourceTree = "<group>"; };
 		E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCoreDataManager.swift; sourceTree = "<group>"; };
+		E4793525292CD47C00DBCF13 /* RestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +130,7 @@
 		E454DB7629265C4D00A03850 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				E454DB842926A36E00A03850 /* APIService.swift */,
+				E4793525292CD47C00DBCF13 /* RestService.swift */,
 				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
 				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
 			);
@@ -271,8 +271,8 @@
 				E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */,
 				E454DB822926A1D200A03850 /* ArticlesResponseModel.swift in Sources */,
 				E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */,
-				E454DB852926A36E00A03850 /* APIService.swift in Sources */,
 				E454DB7A29265DBB00A03850 /* ArticlesCustomTableViewCell.swift in Sources */,
+				E4793526292CD47C00DBCF13 /* RestService.swift in Sources */,
 				E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,
 			);

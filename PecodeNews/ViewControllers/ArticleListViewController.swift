@@ -8,9 +8,10 @@
 import UIKit
 
 class ArticleListViewController: UIViewController {
+    @IBOutlet private weak var upNavButton: UIButton!
     @IBOutlet private weak var articlesTableView: UITableView!
-
     private var articlesModel: [ArticlesModel] = []
+    @IBOutlet private weak var articleSettingsView: UIView!
 
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -29,9 +30,41 @@ class ArticleListViewController: UIViewController {
         super.viewDidLoad()
 
         configureTableView()
-        getCountryArticles(country: .us)
+        getArticles()
         setUpSerachController()
         setUpRefreshControl()
+        scrollViewDidScroll(articlesTableView)
+    }
+
+    // Configure aperiance upButton + settingView
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        DispatchQueue.main.async { [weak self] in
+            guard
+                let self = self
+            else {
+                return
+            }
+
+            let startPoint = scrollView.contentOffset.y
+            let scrollHeight = scrollView.frame.height
+
+            if startPoint >= abs(scrollHeight) {
+                self.articleSettingsView.isHidden = true
+                self.upNavButton.isHidden = false
+            } else {
+                self.articleSettingsView.isHidden = false
+                self.upNavButton.isHidden = true
+            }
+        }
+    }
+
+    @IBAction func upnavButtonTapped(_ sender: Any) {
+        let topRow = IndexPath(row: 0,
+                               section: 0)
+
+        self.articlesTableView.scrollToRow(at: topRow,
+                                   at: .top,
+                                   animated: true)
     }
 
     // Setup refreshControl
@@ -58,7 +91,7 @@ class ArticleListViewController: UIViewController {
                 print("fetching data")
             }
 
-            self.getCountryArticles(country: .us)
+            self.getArticles()
             self.articlesTableView?.refreshControl?.endRefreshing()
         }
     }
@@ -75,11 +108,11 @@ class ArticleListViewController: UIViewController {
     }
 
     // APICall methods
-    private func getCountryArticles(country: Countries) {
-            APIService.shared.requestCountryArticles(with: country) { articles in
-                self.articlesModel = articles
-                self.articlesTableView.reloadData()
-            }
+    private func getArticles() {
+        RestService.shared.getAllTopArticles(country: .us, category: nil, query: nil, pageNumber: 1, limit: 5) { articles in
+            self.articlesModel = articles
+            self.articlesTableView.reloadData()
+        }
     }
 
     // TableView methods

@@ -42,16 +42,11 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
         else {
             return
         }
-
         print(query)
 
-        APIService.shared.requestSearchingArticles(with: query.trimmingCharacters(in: .whitespaces)) { erticles in
-            if let erticles = erticles {
-                self.filteredArticles = erticles
-                DispatchQueue.main.async {
-                    self.filteredArticlesTableView.reloadData()
-                }
-            }
+        RestService.shared.getAllTopArticles(country: nil, category: nil, query: query.trimmingCharacters(in: .whitespaces), pageNumber: 1, limit: 5) { articles in
+            self.filteredArticles = articles
+            self.filteredArticlesTableView.reloadData()
         }
     }
 }
