@@ -17,6 +17,7 @@ class ArticleListViewController: UIViewController {
     private var articlesModel: [ArticlesModel] = []
     private var countriesModel = CountriesModel.countriesList
     private var categoriesModel = CategoriesModel.categoriesList
+
     private let spinner = UIActivityIndicatorView()
     private var categorySwitcher = 0
 
@@ -102,7 +103,8 @@ class ArticleListViewController: UIViewController {
 
             self.articlesModel.removeAll()
             Constants.currentPage = 1
-            self.getArticles(page: Constants.currentPage)
+//            self.getArticles(page: Constants.currentPage)
+        self.getArticles(pagination: false, page: 1, countryName: Constants.currentCountry, categoryName: Constants.currentCategory)
             self.articlesTableView.refreshControl?.endRefreshing()
     }
 
@@ -118,12 +120,12 @@ class ArticleListViewController: UIViewController {
     }
 
     // APICall methods
-    private func getArticles(pagination: Bool = false, page: Int = Constants.currentPage) {
+    private func getArticles(pagination: Bool = false, page: Int = Constants.currentPage, countryName: String? = "us", categoryName: String? = nil) {
         DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 2), execute: { [ weak self ] in
             RestService.shared.getAllTopArticles(
                 pagination: pagination,
-                country: .us,
-                category: nil,
+                country: countryName,
+                category: categoryName,
                 query: nil,
                 page: page,
                 limit: 10) { [weak self] articles in
@@ -151,14 +153,6 @@ class ArticleListViewController: UIViewController {
         self.categoriesCollectionView.register(UINib(nibName: Constants.categoryCell, bundle: nil),
                                      forCellWithReuseIdentifier: Constants.categoryCell)
     }
-
-//    func setCurrentCategory(at indexPath: IndexPath) {
-//        guard let currentCountryCategory = currentCountryCategory else { return }
-//
-//        currentCategoryIndex = indexPath.row
-//        countriesCollectionView.reloadData()
-//    }
-
 }
 
 // MARK: - Work with TableView
@@ -201,7 +195,8 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 tableView: articlesTableView
             )
 
-            getArticles(page: Constants.currentPage)
+//            getArticles(page: Constants.currentPage)
+            getArticles(pagination: false, page: Constants.currentPage, countryName: Constants.currentCountry, categoryName: Constants.currentCategory)
         }
     }
 
@@ -317,7 +312,8 @@ extension ArticleListViewController: UICollectionViewDataSource {
         if self.categorySwitcher == 1 {
             let model = self.categoriesModel[indexPath.row]
             cell.categoryNameLabel.text = model.name
-            cell.indicatorView.isHidden = !model.isSelected
+            cell.indicatorView.isHidden = !(model.isSelected ?? false)
+
             return cell
         } else {
             let model = self.countriesModel[indexPath.row]
@@ -326,14 +322,6 @@ extension ArticleListViewController: UICollectionViewDataSource {
             return cell
         }
 
-//            cell.categoryNameLabel.text = model.name
-//            cell.indicatorView.isHidden = !model.isSelected
-
-//        cell.configure(with: model)
-
-//        let isSelected = (indexPath.row == self.currentCategoryIndex)
-//        cell.configure(with: .init(name: model.name, isSelected: isSelected))
-
     }
 }
 
@@ -341,10 +329,27 @@ extension ArticleListViewController: UICollectionViewDataSource {
 
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard collectionView == self.categoriesCollectionView else { return }
+//        guard collectionView == self.categoriesCollectionView else { return }
 
-        print("Tap on index \(indexPath.row)")
-
-//        setCurrentCategory(at: indexPath)
+        if self.categorySwitcher == 1 {
+            guard let categoryName = categoriesModel[indexPath.row].name else { return }
+            print(categoryName)
+            self.articlesModel.removeAll()
+            self.getArticles(pagination: false,
+                             page: 1,
+                             countryName: Constants.currentCountry,
+                             categoryName: categoryName)
+            Constants.currentCategory = categoryName
+        } else {
+            guard let countryName = countriesModel[indexPath.row].name else { return }
+            print(countryName)
+            self.articlesModel.removeAll()
+            self.getArticles(pagination: false,
+                             page: 1,
+                             countryName: countryName,
+                             categoryName: Constants.currentCategory
+            )
+            Constants.currentCountry = countryName
+        }
     }
 }

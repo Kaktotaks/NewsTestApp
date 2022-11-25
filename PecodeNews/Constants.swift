@@ -18,4 +18,7 @@ enum Constants {
 
     static var totalPage = 1
     static var currentPage = 1
+
+    static var currentCountry = "us"
+    static var currentCategory = "business"
 }

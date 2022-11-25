@@ -8,13 +8,13 @@
 import Foundation
 import Alamofire
 
-enum Countries: String {
-    case us, de, pl, fr, ua, be
-}
-
-enum Categories: String {
-    case business, entertainment, general, health, science, sports, technology
-}
+//enum Countries: String {
+//    case us, de, pl, fr, ua, be
+//}
+//
+//enum Categories: String {
+//    case business, entertainment, general, health, science, sports, technology
+//}
 
 class RestService {
     private enum Constants {
@@ -39,7 +39,7 @@ class RestService {
         completion: @escaping(([ArticlesModel]) -> Void)
     ) {
 
-        let url = "\(Constants.mainURL)\(path)&apiKey=\("")"
+        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.secondApiKey)"
         if let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
 
             AF.request(
@@ -70,8 +70,8 @@ class RestService {
 
     func getAllTopArticles(
         pagination: Bool = false,
-        country: Countries? = nil,
-        category: Categories? = nil,
+        country: String? = "us",
+        category: String? = nil,
         query: String? = nil,
         page: Int = 1,
         limit: Int = 5,
@@ -84,11 +84,11 @@ class RestService {
         }
 
         if let countryKey = country {
-            path = "\(path)&country=\(countryKey.rawValue)"
+            path = "\(path)&country=\(countryKey)"
         }
 
         if let categoryKey = category {
-            path = "\(path)&category=\(categoryKey.rawValue)"
+            path = "\(path)&category=\(categoryKey)"
         }
 
         print(path)
