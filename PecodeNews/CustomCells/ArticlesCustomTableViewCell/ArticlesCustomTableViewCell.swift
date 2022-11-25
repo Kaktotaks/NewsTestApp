@@ -29,7 +29,7 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         containerView.layer.cornerRadius = 22
-        saveToFavouritesButton.layer.cornerRadius = 6
+        saveToFavouritesButton.layer.cornerRadius = 2
     }
 
     // Func configure with home articles

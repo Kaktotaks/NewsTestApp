@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CategoryCollectionViewCell" id="gTV-IL-0wX" customClass="CategoryCollectionViewCell" customModule="PecodeNews" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="35"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="70" height="35"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-qv-22i">
+                        <rect key="frame" x="12" y="4" width="54" height="27"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lqw-YO-RAV">
+                                <rect key="frame" x="4" y="4" width="50" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="8Et-yO-ebR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kDC-4h-ERz" userLabel="IndicatorView">
+                                <rect key="frame" x="4" y="22" width="50" height="2"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="qtu-ge-Nyc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Lqw-YO-RAV" firstAttribute="leading" secondItem="f4U-qv-22i" secondAttribute="leading" constant="4" id="FaN-pM-gRy"/>
+                            <constraint firstItem="kDC-4h-ERz" firstAttribute="leading" secondItem="Lqw-YO-RAV" secondAttribute="leading" id="N3x-WA-vje"/>
+                            <constraint firstItem="kDC-4h-ERz" firstAttribute="trailing" secondItem="Lqw-YO-RAV" secondAttribute="trailing" id="PMw-dK-eot"/>
+                            <constraint firstAttribute="trailing" secondItem="Lqw-YO-RAV" secondAttribute="trailing" id="Ycp-Sc-Naz"/>
+                            <constraint firstItem="kDC-4h-ERz" firstAttribute="top" secondItem="Lqw-YO-RAV" secondAttribute="bottom" constant="2" id="iAG-uE-uN9"/>
+                            <constraint firstItem="Lqw-YO-RAV" firstAttribute="top" secondItem="f4U-qv-22i" secondAttribute="top" constant="4" id="kam-5O-V1V"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="f4U-qv-22i" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="9Wu-Ly-aON"/>
+                <constraint firstAttribute="bottom" secondItem="f4U-qv-22i" secondAttribute="bottom" constant="4" id="Koq-kw-Hs2"/>
+                <constraint firstItem="f4U-qv-22i" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="4" id="SRl-2x-V4M"/>
+                <constraint firstAttribute="trailing" secondItem="f4U-qv-22i" secondAttribute="trailing" constant="4" id="Yau-RE-Ulg"/>
+            </constraints>
+            <size key="customSize" width="70" height="35"/>
+            <connections>
+                <outlet property="categoryNameLabel" destination="Lqw-YO-RAV" id="MEK-Ae-IbD"/>
+                <outlet property="indicatorView" destination="kDC-4h-ERz" id="1Jf-9m-72q"/>
+            </connections>
+            <point key="canvasLocation" x="-117.55725190839694" y="46.83098591549296"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

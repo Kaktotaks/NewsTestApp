@@ -28,6 +28,12 @@
 		E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */; };
 		E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */; };
 		E4793526292CD47C00DBCF13 /* RestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793525292CD47C00DBCF13 /* RestService.swift */; };
+		E479352B292E180300DBCF13 /* CountriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E479352A292E180300DBCF13 /* CountriesModel.swift */; };
+		E479352D292E182800DBCF13 /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E479352C292E182800DBCF13 /* CategoriesModel.swift */; };
+		E4793532292E1CB500DBCF13 /* SpinnerFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */; };
+		E4793542292E697700DBCF13 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793540292E697700DBCF13 /* CategoryCollectionViewCell.swift */; };
+		E4793543292E697700DBCF13 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4793541292E697700DBCF13 /* CategoryCollectionViewCell.xib */; };
+		E4793546292E718500DBCF13 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793545292E718500DBCF13 /* UIFontExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +58,12 @@
 		E454DBA9292A82CB00A03850 /* PecodeNews.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PecodeNews.xcdatamodel; sourceTree = "<group>"; };
 		E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCoreDataManager.swift; sourceTree = "<group>"; };
 		E4793525292CD47C00DBCF13 /* RestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestService.swift; sourceTree = "<group>"; };
+		E479352A292E180300DBCF13 /* CountriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesModel.swift; sourceTree = "<group>"; };
+		E479352C292E182800DBCF13 /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
+		E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerFooterCell.swift; sourceTree = "<group>"; };
+		E4793540292E697700DBCF13 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		E4793541292E697700DBCF13 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		E4793545292E718500DBCF13 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				E454DB862926A6DE00A03850 /* Constants.swift */,
+				E4793544292E716600DBCF13 /* Extensions */,
 				E454DB7629265C4D00A03850 /* Managers */,
 				E454DB7529265C2A00A03850 /* Models */,
 				E454DB7329265C1400A03850 /* ViewControllers */,
@@ -113,8 +126,8 @@
 		E454DB7429265C1D00A03850 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
-				E454DB7829265DBB00A03850 /* ArticlesCustomTableViewCell.swift */,
-				E454DB7929265DBB00A03850 /* ArticlesCustomTableViewCell.xib */,
+				E4793537292E688500DBCF13 /* CategoryCollectionViewCell */,
+				E4793536292E686A00DBCF13 /* ArticlesCustomTableViewCell */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -122,6 +135,7 @@
 		E454DB7529265C2A00A03850 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E4793529292E177600DBCF13 /* ArticlesCategories */,
 				E454DB7C2926A1A900A03850 /* ArticlesModel */,
 			);
 			path = Models;
@@ -133,6 +147,7 @@
 				E4793525292CD47C00DBCF13 /* RestService.swift */,
 				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
 				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
+				E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -156,6 +171,41 @@
 				E454DB7E2926A1D200A03850 /* Source.swift */,
 			);
 			path = ArticlesModel;
+			sourceTree = "<group>";
+		};
+		E4793529292E177600DBCF13 /* ArticlesCategories */ = {
+			isa = PBXGroup;
+			children = (
+				E479352A292E180300DBCF13 /* CountriesModel.swift */,
+				E479352C292E182800DBCF13 /* CategoriesModel.swift */,
+			);
+			path = ArticlesCategories;
+			sourceTree = "<group>";
+		};
+		E4793536292E686A00DBCF13 /* ArticlesCustomTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E454DB7829265DBB00A03850 /* ArticlesCustomTableViewCell.swift */,
+				E454DB7929265DBB00A03850 /* ArticlesCustomTableViewCell.xib */,
+			);
+			path = ArticlesCustomTableViewCell;
+			sourceTree = "<group>";
+		};
+		E4793537292E688500DBCF13 /* CategoryCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E4793540292E697700DBCF13 /* CategoryCollectionViewCell.swift */,
+				E4793541292E697700DBCF13 /* CategoryCollectionViewCell.xib */,
+			);
+			path = CategoryCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		E4793544292E716600DBCF13 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E4793545292E718500DBCF13 /* UIFontExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E454DB6C292643D700A03850 /* LaunchScreen.storyboard in Resources */,
+				E4793543292E697700DBCF13 /* CategoryCollectionViewCell.xib in Resources */,
 				E454DB7B29265DBB00A03850 /* ArticlesCustomTableViewCell.xib in Resources */,
 				E454DB69292643D700A03850 /* Assets.xcassets in Resources */,
 				E454DB67292643D500A03850 /* Main.storyboard in Resources */,
@@ -266,13 +317,18 @@
 				E454DBA7292A7D7F00A03850 /* FavouriteArticlesViewController.swift in Sources */,
 				E454DB60292643D500A03850 /* AppDelegate.swift in Sources */,
 				E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */,
+				E4793546292E718500DBCF13 /* UIFontExtension.swift in Sources */,
 				E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */,
 				E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */,
 				E454DB982927A99300A03850 /* SearchArticlesViewController.swift in Sources */,
 				E454DB822926A1D200A03850 /* ArticlesResponseModel.swift in Sources */,
+				E4793542292E697700DBCF13 /* CategoryCollectionViewCell.swift in Sources */,
+				E4793532292E1CB500DBCF13 /* SpinnerFooterCell.swift in Sources */,
 				E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */,
 				E454DB7A29265DBB00A03850 /* ArticlesCustomTableViewCell.swift in Sources */,
+				E479352B292E180300DBCF13 /* CountriesModel.swift in Sources */,
 				E4793526292CD47C00DBCF13 /* RestService.swift in Sources */,
+				E479352D292E182800DBCF13 /* CategoriesModel.swift in Sources */,
 				E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,
 			);

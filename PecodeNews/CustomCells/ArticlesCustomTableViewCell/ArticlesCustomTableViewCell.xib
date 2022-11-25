@@ -60,7 +60,7 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sn-8B-g1q">
-                                <rect key="frame" x="399" y="0.0" width="42" height="42"/>
+                                <rect key="frame" x="399" y="154" width="42" height="42"/>
                                 <color key="backgroundColor" red="0.62516718697278895" green="0.63621667211224475" blue="0.68366465805578236" alpha="0.50499275662251653" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="V81-ib-QEu"/>
@@ -79,7 +79,6 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="q1b-KY-etl" secondAttribute="trailing" constant="8" id="0aY-aS-0iO"/>
-                            <constraint firstItem="9sn-8B-g1q" firstAttribute="top" secondItem="M6I-y8-hRF" secondAttribute="top" id="IsB-pc-xnb"/>
                             <constraint firstAttribute="trailing" secondItem="TL3-dT-C73" secondAttribute="trailing" id="JED-Rg-qDE"/>
                             <constraint firstAttribute="bottom" secondItem="yUp-eD-yb4" secondAttribute="bottom" constant="8" id="JmK-gq-y2d"/>
                             <constraint firstItem="xM4-NY-pVk" firstAttribute="leading" secondItem="M6I-y8-hRF" secondAttribute="leading" constant="8" id="MGd-ix-uwU"/>
@@ -90,6 +89,7 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
                             <constraint firstAttribute="trailing" secondItem="Hom-Tg-S34" secondAttribute="trailing" constant="8" id="cc0-3G-nLI"/>
                             <constraint firstAttribute="trailing" secondItem="9sn-8B-g1q" secondAttribute="trailing" id="h8q-fl-mgV"/>
                             <constraint firstItem="q1b-KY-etl" firstAttribute="leading" secondItem="M6I-y8-hRF" secondAttribute="leading" constant="8" id="h9A-Un-HIE"/>
+                            <constraint firstItem="9sn-8B-g1q" firstAttribute="bottom" secondItem="TL3-dT-C73" secondAttribute="bottom" id="iyX-bL-4oL"/>
                             <constraint firstItem="yUp-eD-yb4" firstAttribute="width" secondItem="M6I-y8-hRF" secondAttribute="width" multiplier="0.4" id="lfB-ip-taf"/>
                             <constraint firstItem="xM4-NY-pVk" firstAttribute="top" secondItem="q1b-KY-etl" secondAttribute="bottom" constant="8" id="mH3-rf-YPb"/>
                             <constraint firstItem="Hom-Tg-S34" firstAttribute="leading" secondItem="M6I-y8-hRF" secondAttribute="leading" constant="8" id="oyn-JM-u91"/>

@@ -10,14 +10,15 @@ import UIKit
 class ArticleListViewController: UIViewController {
     @IBOutlet private weak var upNavButton: UIButton!
     @IBOutlet private weak var articlesTableView: UITableView!
-    private var articlesModel: [ArticlesModel] = []
     @IBOutlet private weak var articleSettingsView: UIView!
+    @IBOutlet private weak var categoriesCollectionView: UICollectionView!
 
-    // swiftlint:disable force_cast
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    // swiftlint:enable force_cast
+    private var articlesModel: [ArticlesModel] = []
+    private var countriesModel = CountriesModel.countriesList
+    private let spinner = UIActivityIndicatorView()
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
+
     private var isSearchBarEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
             return text.isEmpty
@@ -26,15 +27,26 @@ class ArticleListViewController: UIViewController {
         searchController.isActive && !isSearchBarEmpty
     }
 
+    // swiftlint:disable force_cast
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // swiftlint:enable force_cast
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureActivityIndicator()
         configureTableView()
-//        getArticles(pagination: false, page: 1)
-        refresArticles()
-        setUpSerachController()
+        configureCollectionView()
+        refreshArticles()
+        setUpSearchController()
         setUpRefreshControl()
         scrollViewDidScroll(articlesTableView)
+    }
+
+    private func configureActivityIndicator() {
+        spinner.center = view.center
+        view.addSubview(spinner)
+        spinner.startAnimating()
     }
 
     @IBAction func upnavButtonTapped(_ sender: Any) {
@@ -53,24 +65,23 @@ class ArticleListViewController: UIViewController {
     }
 
     @objc private func didPullRefresh() {
-        refresArticles()
+        refreshArticles()
     }
 
-    private func refresArticles() {
+    private func refreshArticles() {
         // refresh data here
-        DispatchQueue.main.async {
             self.articlesTableView.refreshControl?.beginRefreshing()
+            self.articlesTableView.isHidden = true
             print("Start refresh")
 
             self.articlesModel.removeAll()
             Constants.currentPage = 1
             self.getArticles(page: Constants.currentPage)
             self.articlesTableView.refreshControl?.endRefreshing()
-        }
     }
 
-    // SearchingSetup methods
-    private func setUpSerachController() {
+    // SearchingSetup method
+    private func setUpSearchController() {
         let searchArtVC = SearchArticlesViewController()
         let searchController = UISearchController(searchResultsController: searchArtVC)
         searchController.searchResultsUpdater = searchArtVC
@@ -83,17 +94,23 @@ class ArticleListViewController: UIViewController {
     // APICall methods
     private func getArticles(pagination: Bool = false, page: Int = Constants.currentPage) {
         DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 2), execute: { [ weak self ] in
-            RestService.shared.getAllTopArticles(pagination: pagination, country: .us, category: nil, query: nil, page: page, limit: 10) { [weak self] articles in
-
-                guard
-                    let self = self
-                else { return }
+            RestService.shared.getAllTopArticles(
+                pagination: pagination,
+                country: .us,
+                category: nil,
+                query: nil,
+                page: page,
+                limit: 10) { [weak self] articles in
+                guard let self = self else { return }
 
                 //                self.articlesModel.removeAll()
                 self.articlesModel.append(contentsOf: articles)
                 DispatchQueue.main.async {
+                    self.spinner.startAnimating()
                     self.articlesTableView.reloadData()
                     self.articlesTableView.tableFooterView = nil
+                    self.articlesTableView.isHidden = false
+                    self.spinner.removeFromSuperview()
                 }
             }
         })
@@ -101,9 +118,22 @@ class ArticleListViewController: UIViewController {
 
     // TableView methods
     private func configureTableView() {
-        let nib = UINib(nibName: "ArticlesCustomTableViewCell", bundle: nil)
-        self.articlesTableView.register(nib, forCellReuseIdentifier: "ArticlesCustomTableViewCell")
+        let nib = UINib(nibName: Constants.articleCell, bundle: nil)
+        self.articlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
     }
+
+    private func configureCollectionView() {
+        self.categoriesCollectionView.register(UINib(nibName: Constants.categoryCell, bundle: nil),
+                                     forCellWithReuseIdentifier: Constants.categoryCell)
+    }
+
+//    func setCurrentCategory(at indexPath: IndexPath) {
+//        guard let currentCountryCategory = currentCountryCategory else { return }
+//
+//        currentCategoryIndex = indexPath.row
+//        countriesCollectionView.reloadData()
+//    }
+
 }
 
 // MARK: - Work with TableView
@@ -112,21 +142,10 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
         self.articlesModel.count
     }
 
-    private func createSpinnerFooter() -> UIView {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
-
-        let spinner = UIActivityIndicatorView()
-        spinner.center = footerView.center
-        footerView.addSubview(spinner)
-        spinner.startAnimating()
-
-        return footerView
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             guard
                 let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "ArticlesCustomTableViewCell"
+                    withIdentifier: Constants.articleCell
                 ) as? ArticlesCustomTableViewCell
             else {
                 return UITableViewCell()
@@ -152,7 +171,11 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 return
             }
 
-            self.articlesTableView.tableFooterView = createSpinnerFooter()
+            self.articlesTableView.tableFooterView = SpinnerFooterCell.shared.createSpinnerFooter(
+                viewController: self,
+                tableView: articlesTableView
+            )
+
             getArticles(page: Constants.currentPage)
         }
     }
@@ -169,6 +192,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             let articleTitle = articlesModel[indexPath.row].title
             let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
             let navVC = UINavigationController(rootViewController: webVC)
+
             self.present(navVC, animated: true)
         } else {
             print("No url was found")
@@ -177,6 +201,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 message: nil, preferredStyle: .actionSheet,
                 forTime: 1.0
             )
+
             self.present(noURLalert, animated: true)
             return
         }
@@ -185,11 +210,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     // Configure aperiance upButton + settingView
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         DispatchQueue.main.async { [weak self] in
-            guard
-                let self = self
-            else {
-                return
-            }
+            guard let self = self else { return }
 
             let startPoint = scrollView.contentOffset.y
             let scrollHeight = scrollView.frame.height
@@ -244,6 +265,47 @@ extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
             preferredStyle: .actionSheet,
             forTime: 1.0
         )
+
         present(alert, animated: true)
+    }
+}
+
+//MARK: - CollectionView extensions
+extension ArticleListViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.countriesModel.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: Constants.categoryCell,
+                for: indexPath) as? CategoryCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+
+        let model = self.countriesModel[indexPath.row]
+
+        cell.categoryNameLabel.text = model.name
+        cell.indicatorView.isHidden = model.isSelected
+
+//        cell.configure(with: model)
+
+//        let isSelected = (indexPath.row == self.currentCategoryIndex)
+//        cell.configure(with: .init(name: model.name, isSelected: isSelected))
+
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ArticleListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard collectionView == self.categoriesCollectionView else { return }
+
+        print("Tap on index \(indexPath.row)")
+
+//        setCurrentCategory(at: indexPath)
     }
 }

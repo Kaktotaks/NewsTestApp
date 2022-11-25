@@ -46,8 +46,8 @@ class FavouriteArticlesViewController: UIViewController {
     }
 
     private func setUpArticlesTableView() {
-        let nib = UINib(nibName: "ArticlesCustomTableViewCell", bundle: nil)
-        self.articlesTableView.register(nib, forCellReuseIdentifier: "ArticlesCustomTableViewCell")
+        let nib = UINib(nibName: Constants.articleCell, bundle: nil)
+        self.articlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
     }
 
     private func getArticles() -> [CDArticle] {
@@ -74,7 +74,7 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
 
         guard
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: "ArticlesCustomTableViewCell"
+                withIdentifier: Constants.articleCell
             ) as? ArticlesCustomTableViewCell
         else {
             return UITableViewCell()

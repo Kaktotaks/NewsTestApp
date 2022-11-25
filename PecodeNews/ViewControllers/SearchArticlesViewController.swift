@@ -28,8 +28,8 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
     }
 
     private func setUpSearchTableView() {
-        let nib = UINib(nibName: "ArticlesCustomTableViewCell", bundle: nil)
-        self.filteredArticlesTableView.register(nib, forCellReuseIdentifier: "ArticlesCustomTableViewCell")
+        let nib = UINib(nibName: Constants.articleCell, bundle: nil)
+        self.filteredArticlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
         view.addSubview(filteredArticlesTableView)
         filteredArticlesTableView.delegate = self
         filteredArticlesTableView.dataSource = self
@@ -57,7 +57,7 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArticlesCustomTableViewCell") as? ArticlesCustomTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.articleCell) as? ArticlesCustomTableViewCell else {
             return UITableViewCell()
         }
 

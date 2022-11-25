@@ -13,6 +13,9 @@ enum Constants {
         static let NoURLArticle = "This article has no url!"
     }
 
+    static let categoryCell = String(describing: CategoryCollectionViewCell.self)
+    static let articleCell = String(describing: ArticlesCustomTableViewCell.self)
+
     static var totalPage = 1
     static var currentPage = 1
 }
