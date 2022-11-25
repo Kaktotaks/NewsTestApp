@@ -12,10 +12,13 @@ class ArticleListViewController: UIViewController {
     @IBOutlet private weak var articlesTableView: UITableView!
     @IBOutlet private weak var articleSettingsView: UIView!
     @IBOutlet private weak var categoriesCollectionView: UICollectionView!
+    @IBOutlet private weak var filteredByButton: UIButton!
 
     private var articlesModel: [ArticlesModel] = []
     private var countriesModel = CountriesModel.countriesList
+    private var categoriesModel = CategoriesModel.categoriesList
     private let spinner = UIActivityIndicatorView()
+    private var categorySwitcher = 0
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
 
@@ -34,6 +37,7 @@ class ArticleListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupFilteredByButton()
         configureActivityIndicator()
         configureTableView()
         configureCollectionView()
@@ -62,6 +66,28 @@ class ArticleListViewController: UIViewController {
     private func setUpRefreshControl() {
         articlesTableView.refreshControl = UIRefreshControl()
         articlesTableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
+    }
+
+    private func setupFilteredByButton() {
+        let categoriesMenu = UIMenu(title: "", children: [
+            UIAction(title: "Countries",
+                     image: UIImage(systemName: "flag"),
+                     handler: { action in
+                         print("Countries")
+                         self.categorySwitcher = 0
+                         self.categoriesCollectionView.reloadData()
+            }),
+            UIAction(title: "Categories",
+                     image: UIImage(systemName: "soccerball"),
+                     handler: { action in
+                         print("Categories")
+                         self.categorySwitcher = 1
+                         self.categoriesCollectionView.reloadData()
+            })
+        ])
+
+        filteredByButton.layer.cornerRadius = 4
+        filteredByButton.menu = categoriesMenu
     }
 
     @objc private func didPullRefresh() {
@@ -106,7 +132,6 @@ class ArticleListViewController: UIViewController {
                 //                self.articlesModel.removeAll()
                 self.articlesModel.append(contentsOf: articles)
                 DispatchQueue.main.async {
-                    self.spinner.startAnimating()
                     self.articlesTableView.reloadData()
                     self.articlesTableView.tableFooterView = nil
                     self.articlesTableView.isHidden = false
@@ -215,7 +240,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             let startPoint = scrollView.contentOffset.y
             let scrollHeight = scrollView.frame.height
 
-            if startPoint >= abs(scrollHeight) {
+            if startPoint >= abs(scrollHeight * 2) {
                 self.articleSettingsView.isHidden = true
                 self.upNavButton.isHidden = false
             } else {
@@ -270,10 +295,15 @@ extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
     }
 }
 
-//MARK: - CollectionView extensions
+// MARK: - CollectionView extensions
 extension ArticleListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.countriesModel.count
+
+        if self.categorySwitcher == 1 {
+            return self.categoriesModel.count
+        } else {
+            return self.countriesModel.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -284,17 +314,26 @@ extension ArticleListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        let model = self.countriesModel[indexPath.row]
+        if self.categorySwitcher == 1 {
+            let model = self.categoriesModel[indexPath.row]
+            cell.categoryNameLabel.text = model.name
+            cell.indicatorView.isHidden = !model.isSelected
+            return cell
+        } else {
+            let model = self.countriesModel[indexPath.row]
+            cell.categoryNameLabel.text = model.name
+            cell.indicatorView.isHidden = !model.isSelected
+            return cell
+        }
 
-        cell.categoryNameLabel.text = model.name
-        cell.indicatorView.isHidden = model.isSelected
+//            cell.categoryNameLabel.text = model.name
+//            cell.indicatorView.isHidden = !model.isSelected
 
 //        cell.configure(with: model)
 
 //        let isSelected = (indexPath.row == self.currentCategoryIndex)
 //        cell.configure(with: .init(name: model.name, isSelected: isSelected))
 
-        return cell
     }
 }
 

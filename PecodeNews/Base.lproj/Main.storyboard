@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="155" width="393" height="35"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lEE-R7-Qfk">
-                                        <rect key="frame" x="83" y="0.0" width="310" height="35"/>
+                                        <rect key="frame" x="92" y="0.0" width="301" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZXS-so-4Pv">
                                             <size key="itemSize" width="67" height="24"/>
@@ -54,26 +55,41 @@
                                             <outlet property="delegate" destination="K5a-bx-eAN" id="ljl-Xj-tRA"/>
                                         </connections>
                                     </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filtered by:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDa-af-Hlk">
-                                        <rect key="frame" x="4" y="9" width="75" height="17"/>
+                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mUF-Pb-NS4">
+                                        <rect key="frame" x="2" y="0.0" width="90" height="35"/>
+                                        <color key="backgroundColor" red="0.62516718699999996" green="0.63621667209999999" blue="0.68366465809999999" alpha="0.50499275659999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="75" id="4cn-T1-7lf"/>
+                                            <constraint firstAttribute="width" constant="90" id="xgu-68-81c"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <menu key="menu" id="YgC-6g-G1q">
+                                            <children>
+                                                <command title="Item 1" id="0bW-9h-aOf"/>
+                                                <command title="Item 2" id="60d-ft-rg0"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Filtered by:">
+                                                    <attributes>
+                                                        <color key="NSColor" systemColor="labelColor"/>
+                                                        <font key="NSFont" size="16" name="Optima-Bold"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.30179014900662254" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="mDa-af-Hlk" firstAttribute="height" secondItem="thJ-OP-fG3" secondAttribute="height" multiplier="0.485714" id="6Vq-zU-lcA"/>
-                                    <constraint firstItem="mDa-af-Hlk" firstAttribute="centerY" secondItem="thJ-OP-fG3" secondAttribute="centerY" id="VYx-N6-Fnx"/>
+                                    <constraint firstItem="mUF-Pb-NS4" firstAttribute="leading" secondItem="thJ-OP-fG3" secondAttribute="leading" constant="2" id="DeQ-cb-FAb"/>
+                                    <constraint firstAttribute="bottom" secondItem="lEE-R7-Qfk" secondAttribute="bottom" id="GDu-DZ-ue1"/>
                                     <constraint firstItem="lEE-R7-Qfk" firstAttribute="top" secondItem="thJ-OP-fG3" secondAttribute="top" id="ZNN-1L-J9j"/>
-                                    <constraint firstItem="mDa-af-Hlk" firstAttribute="leading" secondItem="thJ-OP-fG3" secondAttribute="leading" constant="4" id="fmv-gt-s2H"/>
-                                    <constraint firstItem="lEE-R7-Qfk" firstAttribute="leading" secondItem="mDa-af-Hlk" secondAttribute="trailing" constant="4" id="ggc-JF-poE"/>
+                                    <constraint firstAttribute="bottom" secondItem="mUF-Pb-NS4" secondAttribute="bottom" id="jwg-vi-zVo"/>
                                     <constraint firstAttribute="trailing" secondItem="lEE-R7-Qfk" secondAttribute="trailing" id="n0U-eG-ofC"/>
-                                    <constraint firstAttribute="bottom" secondItem="lEE-R7-Qfk" secondAttribute="bottom" id="oiS-B8-8dC"/>
+                                    <constraint firstItem="lEE-R7-Qfk" firstAttribute="leading" secondItem="mUF-Pb-NS4" secondAttribute="trailing" id="psH-YZ-7af"/>
                                     <constraint firstAttribute="height" constant="35" id="xcp-B9-gIm"/>
+                                    <constraint firstItem="mUF-Pb-NS4" firstAttribute="top" secondItem="thJ-OP-fG3" secondAttribute="top" id="xxt-lW-n5M"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -106,6 +122,7 @@
                         <outlet property="articleSettingsView" destination="thJ-OP-fG3" id="Slf-3i-DWo"/>
                         <outlet property="articlesTableView" destination="pkF-Lz-MM0" id="4mn-fN-RNF"/>
                         <outlet property="categoriesCollectionView" destination="lEE-R7-Qfk" id="OGC-Ho-6oR"/>
+                        <outlet property="filteredByButton" destination="mUF-Pb-NS4" id="zha-7M-d59"/>
                         <outlet property="upNavButton" destination="Deu-Qd-OS9" id="cG0-uM-m42"/>
                     </connections>
                 </viewController>
@@ -211,6 +228,9 @@
         <image name="chevron.up" catalog="system" width="128" height="70"/>
         <image name="newspaper" catalog="system" width="128" height="111"/>
         <image name="newspaper.fill" catalog="system" width="128" height="112"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

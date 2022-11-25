@@ -8,7 +8,7 @@
 import UIKit
 
 struct CategoriesModel {
-    static var countriesList: [Category] = [Category(name: "business", isSelected: true),
+    static var categoriesList: [Category] = [Category(name: "business", isSelected: true),
                                             Category(name: "entertainment", isSelected: false),
                                             Category(name: "general", isSelected: false),
                                             Category(name: "health", isSelected: false),
