@@ -55,8 +55,7 @@ class ArticleListViewController: UIViewController {
     }
 
     @IBAction func upnavButtonTapped(_ sender: Any) {
-        let topRow = IndexPath(row: 0,
-                               section: 0)
+        let topRow = IndexPath(row: 0, section: 0)
 
         self.articlesTableView.scrollToRow(at: topRow,
                                    at: .top,
@@ -66,25 +65,25 @@ class ArticleListViewController: UIViewController {
     // Setup refreshControl
     private func setUpRefreshControl() {
         articlesTableView.refreshControl = UIRefreshControl()
-        articlesTableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
+        articlesTableView.refreshControl?.addTarget(self,
+                                                    action: #selector(didPullRefresh),
+                                                    for: .valueChanged)
     }
 
     private func setupFilteredByButton() {
         let categoriesMenu = UIMenu(title: "", children: [
             UIAction(title: "Countries",
-                     image: UIImage(systemName: "flag"),
-                     handler: { action in
+                     image: UIImage(systemName: "flag")) { _ in
                          print("Countries")
                          self.categorySwitcher = 0
                          self.categoriesCollectionView.reloadData()
-            }),
+            },
             UIAction(title: "Categories",
-                     image: UIImage(systemName: "soccerball"),
-                     handler: { action in
+                     image: UIImage(systemName: "soccerball")) { _ in
                          print("Categories")
                          self.categorySwitcher = 1
                          self.categoriesCollectionView.reloadData()
-            })
+            }
         ])
 
         filteredByButton.layer.cornerRadius = 4
@@ -97,15 +96,19 @@ class ArticleListViewController: UIViewController {
 
     private func refreshArticles() {
         // refresh data here
-            self.articlesTableView.refreshControl?.beginRefreshing()
-            self.articlesTableView.isHidden = true
-            print("Start refresh")
+        self.articlesTableView.refreshControl?.beginRefreshing()
+        self.articlesTableView.isHidden = true
+        print("Start refreshing")
 
-            self.articlesModel.removeAll()
-            Constants.currentPage = 1
-//            self.getArticles(page: Constants.currentPage)
-        self.getArticles(pagination: false, page: 1, countryName: Constants.currentCountry, categoryName: Constants.currentCategory)
-            self.articlesTableView.refreshControl?.endRefreshing()
+        self.articlesModel.removeAll()
+        Constants.currentPage = 1
+        self.getArticles(
+            pagination: false,
+            page: 1,
+            countryName: Constants.currentCountry,
+            categoryName: Constants.currentCategory
+        )
+        self.articlesTableView.refreshControl?.endRefreshing()
     }
 
     // SearchingSetup method
@@ -120,8 +123,11 @@ class ArticleListViewController: UIViewController {
     }
 
     // APICall methods
-    private func getArticles(pagination: Bool = false, page: Int = Constants.currentPage, countryName: String? = "us", categoryName: String? = nil) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 2), execute: { [ weak self ] in
+    private func getArticles(pagination: Bool = false,
+                             page: Int = Constants.currentPage,
+                             countryName: String? = "us",
+                             categoryName: String? = nil) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 1)) {
             RestService.shared.getAllTopArticles(
                 pagination: pagination,
                 country: countryName,
@@ -129,19 +135,18 @@ class ArticleListViewController: UIViewController {
                 query: nil,
                 page: page,
                 limit: 10) { [weak self] articles in
-                guard let self = self else { return }
+                    guard let self = self else { return }
 
-                //                self.articlesModel.removeAll()
-                self.articlesModel.append(contentsOf: articles)
-                DispatchQueue.main.async {
-                    self.articlesTableView.reloadData()
-                    self.articlesTableView.tableFooterView = nil
-                    self.articlesTableView.isHidden = false
-                    self.spinner.removeFromSuperview()
-                }
+                    self.articlesModel.append(contentsOf: articles)
+                    DispatchQueue.main.async {
+                        self.articlesTableView.reloadData()
+                        self.articlesTableView.tableFooterView = nil
+                        self.articlesTableView.isHidden = false
+                        self.spinner.removeFromSuperview()
+                    }
             }
-        })
         }
+    }
 
     // TableView methods
     private func configureTableView() {
@@ -195,8 +200,11 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 tableView: articlesTableView
             )
 
-//            getArticles(page: Constants.currentPage)
-            getArticles(pagination: false, page: Constants.currentPage, countryName: Constants.currentCountry, categoryName: Constants.currentCategory)
+            getArticles(pagination: false,
+                        page: Constants.currentPage,
+                        countryName: Constants.currentCountry,
+                        categoryName: Constants.currentCategory
+            )
         }
     }
 
@@ -326,7 +334,6 @@ extension ArticleListViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        guard collectionView == self.categoriesCollectionView else { return }

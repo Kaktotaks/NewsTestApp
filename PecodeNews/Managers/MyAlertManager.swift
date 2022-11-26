@@ -18,12 +18,15 @@ struct MyAlertManager {
         preferredStyle: UIAlertController.Style,
         forTime: TimeInterval
     ) -> UIAlertController {
-        let alertController: UIAlertController = .init(title: title, message: message, preferredStyle: preferredStyle)
-        Timer.scheduledTimer(
-            withTimeInterval: forTime,
-            repeats: false,
-            block: { _ in alertController.dismiss(animated: true, completion: nil)}
+        let alertController: UIAlertController = .init(title: title,
+                                                       message: message,
+                                                       preferredStyle: preferredStyle
         )
+
+        Timer.scheduledTimer(withTimeInterval: forTime,
+                             repeats: false) {_ in
+                alertController.dismiss(animated: true, completion: nil)
+        }
         return alertController
     }
 }

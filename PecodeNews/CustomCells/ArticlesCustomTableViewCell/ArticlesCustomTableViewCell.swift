@@ -39,11 +39,7 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         self.sourceLabel.text = model?.source?.name
         self.authorLabel.text = model?.author
 
-        guard
-            let imageString = model?.urlToImage
-        else {
-            return
-        }
+        guard let imageString = model?.urlToImage else { return }
 
         let imageURL = URL(string: imageString)
         self.articleImage.kf.indicatorType = .activity
@@ -57,11 +53,7 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         self.sourceLabel.text = coreDataArticleModel.source
         self.authorLabel.text = coreDataArticleModel.author
 
-        guard
-            let imageString = coreDataArticleModel.urlToImage
-        else {
-            return
-        }
+        guard let imageString = coreDataArticleModel.urlToImage else { return }
 
         let imageURL = URL(string: imageString)
         self.articleImage.kf.indicatorType = .activity

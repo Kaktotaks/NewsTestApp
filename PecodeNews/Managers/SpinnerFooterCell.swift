@@ -12,17 +12,21 @@ struct SpinnerFooterCell {
     private init() {}
 
     func createSpinnerFooter(viewController: UIViewController, tableView: UITableView) -> UIView {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.size.width, height: 50))
+        let footerView = UIView(frame: CGRect(x: 0,
+                                              y: 0,
+                                              width: viewController.view.frame.size.width,
+                                              height: 50)
+        )
+
         let spinner = UIActivityIndicatorView()
         spinner.center = footerView.center
         footerView.addSubview(spinner)
         spinner.startAnimating()
 
         // Check and delete if needed
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             tableView.tableFooterView = nil
-        })
-
+        }
         return footerView
     }
 }

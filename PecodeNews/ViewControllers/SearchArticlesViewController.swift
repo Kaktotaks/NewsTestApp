@@ -37,14 +37,16 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
     }
 
     func updateSearchResults(for searchController: UISearchController) {
-        guard
-            let query = searchController.searchBar.text
-        else {
-            return
-        }
+        guard let query = searchController.searchBar.text else { return }
+
         print(query)
 
-        RestService.shared.getAllTopArticles(country: nil, category: nil, query: query.trimmingCharacters(in: .whitespaces), page: 1, limit: 5) { articles in
+        RestService.shared.getAllTopArticles(country: nil,
+                                             category: nil,
+                                             query: query.trimmingCharacters(in: .whitespaces),
+                                             page: 1, limit: 10) { [weak self] articles in
+            guard let self = self else { return }
+
             self.filteredArticles = articles
             self.filteredArticlesTableView.reloadData()
         }
@@ -57,7 +59,9 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.articleCell) as? ArticlesCustomTableViewCell else {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.articleCell) as? ArticlesCustomTableViewCell
+        else {
             return UITableViewCell()
         }
 
@@ -117,7 +121,9 @@ extension SearchArticlesViewController: ArticlesCustomTableViewCellDelegate {
             title: nil,
             message: Constants.TemporaryAlertAnswers.articleAdded,
             preferredStyle: .actionSheet,
-            forTime: 1.0)
+            forTime: 1.0
+        )
+
         present(alert, animated: true)
     }
 }

@@ -8,14 +8,6 @@
 import Foundation
 import Alamofire
 
-//enum Countries: String {
-//    case us, de, pl, fr, ua, be
-//}
-//
-//enum Categories: String {
-//    case business, entertainment, general, health, science, sports, technology
-//}
-
 class RestService {
     private enum Constants {
         static let mainURL = "https://newsapi.org/v2/top-headlines?"
@@ -48,10 +40,9 @@ class RestService {
                 parameters: params,
                 encoding: encoding,
                 headers: nil
-            ).responseJSON
-            { response in
+            ).responseJSON { response in
                 switch response.result {
-                case .success(_):
+                case .success:
                     print("Successfull request")
                     print(url)
 
