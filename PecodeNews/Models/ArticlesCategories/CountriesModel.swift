@@ -8,23 +8,23 @@
 import UIKit
 
 struct CountriesModel {
-    static var countriesList: [Country] = [Country(name: "us", isSelected: true),
-                                           Country(name: "de", isSelected: false),
-                                           Country(name: "it", isSelected: false),
-                                           Country(name: "fr", isSelected: false),
-                                           Country(name: "ro", isSelected: false),
-                                           Country(name: "ua", isSelected: false),
-                                           Country(name: "lt", isSelected: false),
-                                           Country(name: "lv", isSelected: false),
-                                           Country(name: "in", isSelected: false),
-                                           Country(name: "bg", isSelected: false),
-                                           Country(name: "au", isSelected: false),
-                                           Country(name: "at", isSelected: false),
-                                           Country(name: "ch", isSelected: false)
+    static var countriesList: [Country] = [Country(name: "us"),
+                                           Country(name: "de"),
+                                           Country(name: "it"),
+                                           Country(name: "fr"),
+                                           Country(name: "ro"),
+                                           Country(name: "ua"),
+                                           Country(name: "lt"),
+                                           Country(name: "lv"),
+                                           Country(name: "in"),
+                                           Country(name: "bg"),
+                                           Country(name: "au"),
+                                           Country(name: "at"),
+                                           Country(name: "ch")
     ]
 }
 
 struct Country {
     let name: String?
-    var isSelected: Bool
+    var isSelected: Bool? = false
 }

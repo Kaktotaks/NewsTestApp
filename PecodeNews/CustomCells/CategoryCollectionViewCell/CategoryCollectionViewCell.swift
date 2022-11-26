@@ -17,18 +17,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
-    func configure(with countryModel: Country) {
-        categoryNameLabel.text = countryModel.name
-        categoryNameLabel.font = countryModel.isSelected ?
-        UIFont.makeRoboto(.medium, size: 16.0) : UIFont.makeRoboto(.regular, size: 16.0)
-        indicatorView.isHidden = !countryModel.isSelected
-    }
-
-    func configureCategorie(_ categoryModel: Category) {
-        categoryNameLabel.text = categoryModel.name
-        categoryNameLabel.font = categoryModel.isSelected! ?
-    UIFont.makeRoboto(.medium, size: 16.0) : UIFont.makeRoboto(.regular, size: 16.0)
-        indicatorView.isHidden = !categoryModel.isSelected!
-    }
+//    func configure(with countryModel: Country) {
+//        categoryNameLabel.text = countryModel.name
+//        categoryNameLabel.font = countryModel.isSelected! ?
+//        UIFont.makeRoboto(.medium, size: 16.0) : UIFont.makeRoboto(.regular, size: 16.0)
+//        indicatorView.isHidden = !countryModel.isSelected!
+//    }
+//
+//    func configureCategorie(_ categoryModel: Category) {
+//        categoryNameLabel.text = categoryModel.name
+//        categoryNameLabel.font = categoryModel.isSelected! ?
+//    UIFont.makeRoboto(.medium, size: 16.0) : UIFont.makeRoboto(.regular, size: 16.0)
+//        indicatorView.isHidden = !categoryModel.isSelected!
+//    }
 
 }

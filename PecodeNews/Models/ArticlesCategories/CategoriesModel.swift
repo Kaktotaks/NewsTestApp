@@ -20,5 +20,5 @@ struct CategoriesModel {
 
 struct Category {
     let name: String?
-    var isSelected: Bool?
+    var isSelected: Bool? = false
 }

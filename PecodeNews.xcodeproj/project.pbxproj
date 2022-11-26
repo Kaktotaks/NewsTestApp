@@ -220,8 +220,8 @@
 		E4FB4F082932AD030098B58F /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				E4FB4F092932AD2C0098B58F /* magazineAnimation.json */,
 				E4FB4F062932A84F0098B58F /* ActivityIndicatorManager.swift */,
+				E4FB4F092932AD2C0098B58F /* magazineAnimation.json */,
 			);
 			path = Animation;
 			sourceTree = "<group>";

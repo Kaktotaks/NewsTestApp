@@ -19,6 +19,7 @@ class ArticleListViewController: UIViewController {
     private var categoriesModel = CategoriesModel.categoriesList
 
     private var categorySwitcher = 0
+    private var lastActiveIndex: IndexPath = [1, 0]
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
 
@@ -316,13 +317,13 @@ extension ArticleListViewController: UICollectionViewDataSource {
         if self.categorySwitcher == 1 {
             let model = self.categoriesModel[indexPath.row]
             cell.categoryNameLabel.text = model.name
-//            cell.indicatorView.isHidden = !(model.isSelected ?? false)
+            cell.indicatorView.isHidden = !(model.isSelected ?? false)
 
             return cell
         } else {
             let model = self.countriesModel[indexPath.row]
             cell.categoryNameLabel.text = model.name
-//            cell.indicatorView.isHidden = !model.isSelected
+            cell.indicatorView.isHidden = !(model.isSelected ?? false)
             return cell
         }
 
@@ -333,7 +334,6 @@ extension ArticleListViewController: UICollectionViewDataSource {
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        guard collectionView == self.categoriesCollectionView else { return }
-        var lastActiveIndex: IndexPath = [1, 0]
 
         if self.categorySwitcher == 1 {
             guard let categoryName = categoriesModel[indexPath.row].name else { return }
