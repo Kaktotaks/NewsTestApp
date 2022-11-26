@@ -18,7 +18,6 @@ class ArticleListViewController: UIViewController {
     private var countriesModel = CountriesModel.countriesList
     private var categoriesModel = CategoriesModel.categoriesList
 
-    private let spinner = UIActivityIndicatorView()
     private var categorySwitcher = 0
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
@@ -39,19 +38,12 @@ class ArticleListViewController: UIViewController {
         super.viewDidLoad()
 
         setupFilteredByButton()
-        configureActivityIndicator()
         configureTableView()
         configureCollectionView()
         refreshArticles()
         setUpSearchController()
         setUpRefreshControl()
         scrollViewDidScroll(articlesTableView)
-    }
-
-    private func configureActivityIndicator() {
-        spinner.center = view.center
-        view.addSubview(spinner)
-        spinner.startAnimating()
     }
 
     @IBAction func upnavButtonTapped(_ sender: Any) {
@@ -97,7 +89,6 @@ class ArticleListViewController: UIViewController {
     private func refreshArticles() {
         // refresh data here
         self.articlesTableView.refreshControl?.beginRefreshing()
-        self.articlesTableView.isHidden = true
         print("Start refreshing")
 
         self.articlesModel.removeAll()
@@ -105,6 +96,7 @@ class ArticleListViewController: UIViewController {
         self.getArticles(
             pagination: false,
             page: 1,
+            showActivityIndicator: true,
             countryName: Constants.currentCountry,
             categoryName: Constants.currentCategory
         )
@@ -125,9 +117,14 @@ class ArticleListViewController: UIViewController {
     // APICall methods
     private func getArticles(pagination: Bool = false,
                              page: Int = Constants.currentPage,
+                             showActivityIndicator: Bool = false,
                              countryName: String? = "us",
                              categoryName: String? = nil) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 0 : 1)) {
+        if showActivityIndicator {
+            ActivityIndicatorManager.shared.showIndicator(.magazineAnimation)
+        }
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 1 : 0)) {
             RestService.shared.getAllTopArticles(
                 pagination: pagination,
                 country: countryName,
@@ -141,8 +138,7 @@ class ArticleListViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.articlesTableView.reloadData()
                         self.articlesTableView.tableFooterView = nil
-                        self.articlesTableView.isHidden = false
-                        self.spinner.removeFromSuperview()
+                        ActivityIndicatorManager.shared.hide()
                     }
             }
         }
@@ -200,7 +196,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 tableView: articlesTableView
             )
 
-            getArticles(pagination: false,
+            getArticles(pagination: true,
                         page: Constants.currentPage,
                         countryName: Constants.currentCountry,
                         categoryName: Constants.currentCategory
@@ -320,13 +316,13 @@ extension ArticleListViewController: UICollectionViewDataSource {
         if self.categorySwitcher == 1 {
             let model = self.categoriesModel[indexPath.row]
             cell.categoryNameLabel.text = model.name
-            cell.indicatorView.isHidden = !(model.isSelected ?? false)
+//            cell.indicatorView.isHidden = !(model.isSelected ?? false)
 
             return cell
         } else {
             let model = self.countriesModel[indexPath.row]
             cell.categoryNameLabel.text = model.name
-            cell.indicatorView.isHidden = !model.isSelected
+//            cell.indicatorView.isHidden = !model.isSelected
             return cell
         }
 
@@ -337,6 +333,7 @@ extension ArticleListViewController: UICollectionViewDataSource {
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        guard collectionView == self.categoriesCollectionView else { return }
+        var lastActiveIndex: IndexPath = [1, 0]
 
         if self.categorySwitcher == 1 {
             guard let categoryName = categoriesModel[indexPath.row].name else { return }
@@ -344,6 +341,7 @@ extension ArticleListViewController: UICollectionViewDelegate {
             self.articlesModel.removeAll()
             self.getArticles(pagination: false,
                              page: 1,
+                             showActivityIndicator: true,
                              countryName: Constants.currentCountry,
                              categoryName: categoryName)
             Constants.currentCategory = categoryName
@@ -353,10 +351,20 @@ extension ArticleListViewController: UICollectionViewDelegate {
             self.articlesModel.removeAll()
             self.getArticles(pagination: false,
                              page: 1,
+                             showActivityIndicator: true,
                              countryName: countryName,
                              categoryName: Constants.currentCategory
             )
             Constants.currentCountry = countryName
+        }
+
+        if lastActiveIndex != indexPath {
+            let firstCell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell
+            firstCell?.indicatorView.isHidden = false
+
+            let secondCell = collectionView.cellForItem(at: lastActiveIndex) as? CategoryCollectionViewCell
+            secondCell?.indicatorView.isHidden = true
+            lastActiveIndex = indexPath
         }
     }
 }
