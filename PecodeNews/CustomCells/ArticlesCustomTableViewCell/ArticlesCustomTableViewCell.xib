@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="441" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6I-y8-hRF" userLabel="ContainerView">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6I-y8-hRF" userLabel="ContainerView" customClass="GradientView" customModule="PecodeNews" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="441" height="392"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pecodeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="TL3-dT-C73">
@@ -76,7 +76,7 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="q1b-KY-etl" secondAttribute="trailing" constant="8" id="0aY-aS-0iO"/>
                             <constraint firstAttribute="trailing" secondItem="TL3-dT-C73" secondAttribute="trailing" id="JED-Rg-qDE"/>
@@ -98,6 +98,15 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
                             <constraint firstAttribute="bottom" secondItem="xM4-NY-pVk" secondAttribute="bottom" constant="8" id="w8P-2I-biH"/>
                             <constraint firstItem="xM4-NY-pVk" firstAttribute="width" secondItem="M6I-y8-hRF" secondAttribute="width" multiplier="0.4" id="wag-Ug-kXd"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" systemColor="systemGroupedBackgroundColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" systemColor="secondarySystemFillColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
@@ -123,7 +132,10 @@ We're a full-cycle development agency focused on creating unique Web and Mobile 
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
         <image name="pecodeLogo" width="668" height="358"/>
-        <systemColor name="systemGray6Color">
+        <systemColor name="secondarySystemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">

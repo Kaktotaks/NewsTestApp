@@ -33,11 +33,11 @@
 		E4793532292E1CB500DBCF13 /* SpinnerFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */; };
 		E4793542292E697700DBCF13 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793540292E697700DBCF13 /* CategoryCollectionViewCell.swift */; };
 		E4793543292E697700DBCF13 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4793541292E697700DBCF13 /* CategoryCollectionViewCell.xib */; };
-		E4793546292E718500DBCF13 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4793545292E718500DBCF13 /* UIFontExtension.swift */; };
 		E4FB4F022932A7C10098B58F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E4FB4F012932A7C10098B58F /* Lottie */; };
 		E4FB4F052932A7EE0098B58F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E4FB4F042932A7EE0098B58F /* SnapKit */; };
 		E4FB4F072932A84F0098B58F /* ActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB4F062932A84F0098B58F /* ActivityIndicatorManager.swift */; };
 		E4FB4F0A2932AD2C0098B58F /* magazineAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = E4FB4F092932AD2C0098B58F /* magazineAnimation.json */; };
+		E4FB4F0C29337C880098B58F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB4F0B29337C880098B58F /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,9 +67,9 @@
 		E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerFooterCell.swift; sourceTree = "<group>"; };
 		E4793540292E697700DBCF13 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		E4793541292E697700DBCF13 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
-		E4793545292E718500DBCF13 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		E4FB4F062932A84F0098B58F /* ActivityIndicatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorManager.swift; sourceTree = "<group>"; };
 		E4FB4F092932AD2C0098B58F /* magazineAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = magazineAnimation.json; sourceTree = "<group>"; };
+		E4FB4F0B29337C880098B58F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +87,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E43445972933C89C00DFEB4B /* ActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				E4FB4F062932A84F0098B58F /* ActivityIndicatorManager.swift */,
+				E4FB4F092932AD2C0098B58F /* magazineAnimation.json */,
+			);
+			path = ActivityIndicator;
+			sourceTree = "<group>";
+		};
+		E43445982933C90A00DFEB4B /* DataManagers */ = {
+			isa = PBXGroup;
+			children = (
+				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
+				E4793525292CD47C00DBCF13 /* RestService.swift */,
+			);
+			path = DataManagers;
+			sourceTree = "<group>";
+		};
 		E454DB53292643D500A03850 = {
 			isa = PBXGroup;
 			children = (
@@ -107,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				E454DB862926A6DE00A03850 /* Constants.swift */,
-				E4793544292E716600DBCF13 /* Extensions */,
 				E454DB7629265C4D00A03850 /* Managers */,
 				E454DB7529265C2A00A03850 /* Models */,
 				E454DB7329265C1400A03850 /* ViewControllers */,
@@ -152,11 +169,9 @@
 		E454DB7629265C4D00A03850 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				E4FB4F082932AD030098B58F /* Animation */,
-				E4793525292CD47C00DBCF13 /* RestService.swift */,
+				E4FB4F082932AD030098B58F /* ViewManagers */,
+				E43445982933C90A00DFEB4B /* DataManagers */,
 				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
-				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
-				E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -209,21 +224,14 @@
 			path = CategoryCollectionViewCell;
 			sourceTree = "<group>";
 		};
-		E4793544292E716600DBCF13 /* Extensions */ = {
+		E4FB4F082932AD030098B58F /* ViewManagers */ = {
 			isa = PBXGroup;
 			children = (
-				E4793545292E718500DBCF13 /* UIFontExtension.swift */,
+				E43445972933C89C00DFEB4B /* ActivityIndicator */,
+				E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */,
+				E4FB4F0B29337C880098B58F /* GradientView.swift */,
 			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E4FB4F082932AD030098B58F /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				E4FB4F062932A84F0098B58F /* ActivityIndicatorManager.swift */,
-				E4FB4F092932AD2C0098B58F /* magazineAnimation.json */,
-			);
-			path = Animation;
+			path = ViewManagers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,11 +344,11 @@
 			files = (
 				E454DB64292643D500A03850 /* ArticleListViewController.swift in Sources */,
 				E454DB802926A1D200A03850 /* ArticlesModel.swift in Sources */,
+				E4FB4F0C29337C880098B58F /* GradientView.swift in Sources */,
 				E454DB812926A1D200A03850 /* Source.swift in Sources */,
 				E454DBA7292A7D7F00A03850 /* FavouriteArticlesViewController.swift in Sources */,
 				E454DB60292643D500A03850 /* AppDelegate.swift in Sources */,
 				E454DB9B292942CB00A03850 /* WebViewViewController.swift in Sources */,
-				E4793546292E718500DBCF13 /* UIFontExtension.swift in Sources */,
 				E454DBAA292A82CB00A03850 /* PecodeNews.xcdatamodeld in Sources */,
 				E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */,
 				E4FB4F072932A84F0098B58F /* ActivityIndicatorManager.swift in Sources */,

@@ -41,7 +41,13 @@ class ArticleListViewController: UIViewController {
         setupFilteredByButton()
         configureTableView()
         configureCollectionView()
-        refreshArticles()
+        getArticles(
+            pagination: false,
+            page: 1,
+            showActivityIndicator: true,
+            countryName: Constants.currentCountry,
+            categoryName: Constants.currentCategory
+        )
         setUpSearchController()
         setUpRefreshControl()
         scrollViewDidScroll(articlesTableView)
@@ -97,7 +103,7 @@ class ArticleListViewController: UIViewController {
         self.getArticles(
             pagination: false,
             page: 1,
-            showActivityIndicator: true,
+            showActivityIndicator: false,
             countryName: Constants.currentCountry,
             categoryName: Constants.currentCategory
         )
