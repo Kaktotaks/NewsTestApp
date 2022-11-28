@@ -9,6 +9,10 @@ import UIKit
 
 class ArticleListViewControllerViewModel {
     // MARK: - Constants + Variables
+    private var countriesModel = CountriesModel.countriesList
+    private var categoriesModel = CategoriesModel.categoriesList
+    private var categorySwitcher = 0
+    private var lastActiveIndex: IndexPath = [1, 0]
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
     private var isSearchBarEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
@@ -18,17 +22,14 @@ class ArticleListViewControllerViewModel {
         searchController.isActive && !isSearchBarEmpty
     }
 
-    var articlesModel: [ArticlesModel] = []
-    var countriesModel = CountriesModel.countriesList
-    var categoriesModel = CategoriesModel.categoriesList
-    var categorySwitcher = 0
-    var lastActiveIndex: IndexPath = [1, 0]
-
     // swiftlint:disable force_cast
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
 
+    private var articlesModel: [ArticlesModel] = []
+
     // MARK: - ArticleListViewController methods
+    // Action for upNavButton
     func upnavButtonTapped(tableView: UITableView) {
         let topRow = IndexPath(row: 0, section: 0)
 
@@ -119,46 +120,6 @@ class ArticleListViewControllerViewModel {
         tableView.refreshControl?.endRefreshing()
     }
 
-    // Configure Pagination setup
-    func setupPagination(indexPath: IndexPath, completion: @escaping(() -> Void)) {
-        if Constants.currentPage >= Constants.totalPage && indexPath.row == self.articlesModel.count - 1 {
-            Constants.currentPage += 1
-            print("Current page now is: \(Constants.currentPage)")
-
-            var isPaginatint = RestService.shared.isPaginating
-
-            guard !isPaginatint else {
-                print("We are already paginating more data")
-                return
-            }
-            completion()
-        }
-    }
-
-    // Configure DetailViewController(WebViewViewController)
-    func presentWebViewViewController(indexPath: IndexPath, viewController: UIViewController) {
-        if
-            let stringURL = self.articlesModel[indexPath.row].url,
-            let artilleURL = URL(string: stringURL) {
-
-            let articleTitle = self.articlesModel[indexPath.row].title
-            let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
-            let navVC = UINavigationController(rootViewController: webVC)
-
-            viewController.present(navVC, animated: true)
-        } else {
-            print("No url was found")
-            let noURLalert = MyAlertManager.shared.presentTemporaryInfoAlert(
-                title: Constants.TemporaryAlertAnswers.NoURLArticle,
-                message: nil, preferredStyle: .actionSheet,
-                forTime: 1.0
-            )
-
-            viewController.present(noURLalert, animated: true)
-            return
-        }
-    }
-
     // Configure upButton and settingView appearance
     func setUpScrollViewDidScroll(_ scrollView: UIScrollView, articleSettingsView: UIView, upNavButton: UIButton) {
         DispatchQueue.main.async {
@@ -187,7 +148,7 @@ class ArticleListViewControllerViewModel {
 
         let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
             title: nil,
-            message: "Aticle was deleted!",
+            message: "Article was deleted!",
             preferredStyle: .actionSheet,
             forTime: 1.0
         )
@@ -218,7 +179,6 @@ class ArticleListViewControllerViewModel {
     }
 
     // MARK: - Work with TableView/CollectionView DataSource/Delegate methods
-    // Configure TableView + CollectionView
     func configureTableView(tableView: UITableView) {
         let nib = UINib(nibName: Constants.articleCell, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
@@ -229,7 +189,73 @@ class ArticleListViewControllerViewModel {
                                 forCellWithReuseIdentifier: Constants.categoryCell)
     }
 
-    // Handle Switch action with filterButtin for CategoriesModel
+    // Set articles tableView cells
+    func countArticles() -> Int {
+        articlesModel.count
+    }
+
+    // Setup customCells in ArticleTableView
+    func configureCellForRowAtForTableView(
+        viewController: UIViewController,
+        tableView: UITableView,
+        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            guard
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: Constants.articleCell
+                ) as? ArticlesCustomTableViewCell
+            else {
+                return UITableViewCell()
+            }
+
+            cell.selectionStyle = .none
+            cell.configure(with: ArticlesCustomTableViewCellViewModel(with: articlesModel[indexPath.row]))
+
+            cell.delegate = viewController as? any ArticlesCustomTableViewCellDelegate
+            cell.tag = indexPath.row
+            return cell
+        }
+
+    // Configure Pagination for ArticleTableView
+    func setupPaginationForTableView(indexPath: IndexPath, completion: @escaping(() -> Void)) {
+        if Constants.currentPage >= Constants.totalPage && indexPath.row == self.articlesModel.count - 1 {
+            Constants.currentPage += 1
+            print("Current page now is: \(Constants.currentPage)")
+
+            var isPaginatint = RestService.shared.isPaginating
+
+            guard !isPaginatint else {
+                print("We are already paginating more data")
+                return
+            }
+            completion()
+        }
+    }
+
+    // Configure presenting DetailViewController(WebViewViewController) by tapping on tableViewCell
+    func presentWebViewViewController(indexPath: IndexPath, viewController: UIViewController) {
+        if
+            let stringURL = self.articlesModel[indexPath.row].url,
+            let artilleURL = URL(string: stringURL) {
+
+            let articleTitle = self.articlesModel[indexPath.row].title
+            let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
+            let navVC = UINavigationController(rootViewController: webVC)
+
+            viewController.present(navVC, animated: true)
+        } else {
+            print("No url was found")
+            let noURLalert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                title: Constants.TemporaryAlertAnswers.NoURLArticle,
+                message: nil, preferredStyle: .actionSheet,
+                forTime: 1.0
+            )
+
+            viewController.present(noURLalert, animated: true)
+            return
+        }
+    }
+
+    // Set articles category collectionViewCells
     func handleSwitchCategoriesModelCount() -> Int {
         if self.categorySwitcher == 1 {
             return self.categoriesModel.count
@@ -259,28 +285,7 @@ class ArticleListViewControllerViewModel {
         }
     }
 
-    // Setup customCells in ArticletableView
-    func configureCellForRowAtForTableView(
-        viewController: UIViewController,
-        tableView: UITableView,
-        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            guard
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: Constants.articleCell
-                ) as? ArticlesCustomTableViewCell
-            else {
-                return UITableViewCell()
-            }
-
-            cell.selectionStyle = .none
-            cell.configure(with: ArticlesCustomTableViewCellViewModel(with: articlesModel[indexPath.row]))
-
-            cell.delegate = viewController as? any ArticlesCustomTableViewCellDelegate
-            cell.tag = indexPath.row
-            return cell
-        }
-
-    // Switch between countries and categories models
+    // Switch between countries and categories models in CategoryCollectionView
     func collectionViewDidSelectItemAt(collectionView: UICollectionView,
                                        didSelectItemAt indexPath: IndexPath,
                                        tableView: UITableView) {

@@ -10,6 +10,7 @@
 		E434459D2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */; };
 		E434459F2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */; };
 		E43445A32934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */; };
+		E43445A5293544D600DFEB4B /* SearchArticlesViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43445A4293544D600DFEB4B /* SearchArticlesViewControllerViewModel.swift */; };
 		E454DB60292643D500A03850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB5F292643D500A03850 /* AppDelegate.swift */; };
 		E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB61292643D500A03850 /* SceneDelegate.swift */; };
 		E454DB64292643D500A03850 /* ArticleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB63292643D500A03850 /* ArticleListViewController.swift */; };
@@ -47,6 +48,7 @@
 		E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCustomTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListViewControllerViewModel.swift; sourceTree = "<group>"; };
+		E43445A4293544D600DFEB4B /* SearchArticlesViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticlesViewControllerViewModel.swift; sourceTree = "<group>"; };
 		E454DB5C292643D500A03850 /* PecodeNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PecodeNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E454DB5F292643D500A03850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E454DB61292643D500A03850 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */,
+				E43445A4293544D600DFEB4B /* SearchArticlesViewControllerViewModel.swift */,
 				E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */,
 				E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */,
 			);
@@ -393,6 +396,7 @@
 				E454DBA5292994C900A03850 /* MyAlertManager.swift in Sources */,
 				E454DB7A29265DBB00A03850 /* ArticlesCustomTableViewCell.swift in Sources */,
 				E434459D2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift in Sources */,
+				E43445A5293544D600DFEB4B /* SearchArticlesViewControllerViewModel.swift in Sources */,
 				E479352B292E180300DBCF13 /* CountriesModel.swift in Sources */,
 				E4793526292CD47C00DBCF13 /* RestService.swift in Sources */,
 				E479352D292E182800DBCF13 /* CategoriesModel.swift in Sources */,
