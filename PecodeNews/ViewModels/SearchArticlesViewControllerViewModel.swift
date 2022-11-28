@@ -34,9 +34,7 @@ class SearchArticlesViewControllerViewModel {
         RestService.shared.getAllTopArticles(country: nil,
                                              category: nil,
                                              query: query.trimmingCharacters(in: .whitespaces),
-                                             page: 1,
-                                             limit: 10
-        ) { [weak self] articles in
+                                             page: 1, limit: 10) { [weak self] articles in
             guard let self = self else { return }
 
             self.filteredArticles = articles
@@ -91,10 +89,7 @@ class SearchArticlesViewControllerViewModel {
         filteredArticles.count
     }
 
-    func configureCellForRowAtForTableView(viewController: UIViewController,
-                                           tableView: UITableView,
-                                           cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+    func configureCellForRowAtForTableView(viewController: UIViewController, tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.articleCell) as? ArticlesCustomTableViewCell
         else {
