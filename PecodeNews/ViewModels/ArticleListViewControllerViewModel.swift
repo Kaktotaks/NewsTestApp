@@ -11,6 +11,7 @@ class ArticleListViewControllerViewModel {
     // MARK: - Constants + Variables
     private var countriesModel = CountriesModel.countriesList
     private var categoriesModel = CategoriesModel.categoriesList
+    private var articlesModel: [ArticlesModel] = []
     private var categorySwitcher = 0
     private var lastActiveIndex: IndexPath = [1, 0]
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
@@ -25,8 +26,6 @@ class ArticleListViewControllerViewModel {
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
-
-    private var articlesModel: [ArticlesModel] = []
 
     // MARK: - ArticleListViewController methods
     // Action for upNavButton
@@ -89,7 +88,8 @@ class ArticleListViewControllerViewModel {
                 category: categoryName,
                 query: nil,
                 page: page,
-                limit: 5) { [weak self] articles in
+                limit: 5
+            ) { [weak self] articles in
                     guard let self = self else { return }
 
                     self.articlesModel.append(contentsOf: articles)
