@@ -20,5 +20,5 @@ enum Constants {
     static var currentPage = 1
 
     static var currentCountry = "us"
-    static var currentCategory = "business"
+    static var currentCategory = "general"
 }

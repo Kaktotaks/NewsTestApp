@@ -65,7 +65,7 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
             return UITableViewCell()
         }
 
-        cell.configure(with: filteredArticles[indexPath.row])
+        cell.configure(with: ArticlesCustomTableViewCellViewModel(with: filteredArticles[indexPath.row]))
         cell.selectionStyle = .none
 
         cell.delegate = self

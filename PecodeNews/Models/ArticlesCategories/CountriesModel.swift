@@ -12,15 +12,15 @@ struct CountriesModel {
                                            Country(name: "de"),
                                            Country(name: "it"),
                                            Country(name: "fr"),
-                                           Country(name: "ro"),
-                                           Country(name: "ua"),
+                                           Country(name: "at"),
+                                           Country(name: "ch"),
                                            Country(name: "lt"),
                                            Country(name: "lv"),
                                            Country(name: "in"),
                                            Country(name: "bg"),
                                            Country(name: "au"),
-                                           Country(name: "at"),
-                                           Country(name: "ch")
+                                           Country(name: "ro"),
+                                           Country(name: "ua")
     ]
 }
 

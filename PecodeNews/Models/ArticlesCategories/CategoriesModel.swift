@@ -8,9 +8,9 @@
 import UIKit
 
 struct CategoriesModel {
-    static var categoriesList: [Category] = [Category(name: "business"),
+    static var categoriesList: [Category] = [Category(name: "general"),
                                             Category(name: "entertainment"),
-                                            Category(name: "general"),
+                                            Category(name: "business"),
                                             Category(name: "health"),
                                             Category(name: "science"),
                                             Category(name: "sports"),

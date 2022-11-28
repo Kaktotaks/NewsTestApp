@@ -81,7 +81,7 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
         }
 
         cell.selectionStyle = .none
-        cell.configureCoreData(with: favouriteArticles[indexPath.row])
+        cell.configure(with: ArticlesCustomTableViewCellViewModel(with: favouriteArticles[indexPath.row]))
         cell.saveToFavouritesButton.isHidden = true
 
         return cell

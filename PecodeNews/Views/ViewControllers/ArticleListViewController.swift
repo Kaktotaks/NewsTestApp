@@ -102,7 +102,7 @@ class ArticleListViewController: UIViewController {
         Constants.currentPage = 1
         self.getArticles(
             pagination: false,
-            page: 1,
+            page: Constants.currentPage,
             showActivityIndicator: false,
             countryName: Constants.currentCountry,
             categoryName: Constants.currentCategory
@@ -138,7 +138,7 @@ class ArticleListViewController: UIViewController {
                 category: categoryName,
                 query: nil,
                 page: page,
-                limit: 10) { [weak self] articles in
+                limit: 5) { [weak self] articles in
                     guard let self = self else { return }
 
                     self.articlesModel.append(contentsOf: articles)
@@ -179,7 +179,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
             }
 
             cell.selectionStyle = .none
-            cell.configure(with: articlesModel[indexPath.row])
+        cell.configure(with: ArticlesCustomTableViewCellViewModel(with: articlesModel[indexPath.row]))
 
             cell.delegate = self
             cell.tag = indexPath.row
@@ -321,32 +321,29 @@ extension ArticleListViewController: UICollectionViewDataSource {
         }
 
         if self.categorySwitcher == 1 {
-            let model = self.categoriesModel[indexPath.row]
-            cell.categoryNameLabel.text = model.name
-            cell.indicatorView.isHidden = !(model.isSelected ?? false)
+            let categoriesModel = self.categoriesModel[indexPath.row]
+            cell.configure(with: CategoryCollectionViewCellViewModel(with: categoriesModel))
 
             return cell
         } else {
-            let model = self.countriesModel[indexPath.row]
-            cell.categoryNameLabel.text = model.name
-            cell.indicatorView.isHidden = !(model.isSelected ?? false)
+            let countriesModel = self.countriesModel[indexPath.row]
+            cell.configure(with: CategoryCollectionViewCellViewModel(with: countriesModel))
             return cell
         }
-
     }
 }
 
 // MARK: - UICollectionViewDelegate
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard collectionView == self.categoriesCollectionView else { return }
 
         if self.categorySwitcher == 1 {
             guard let categoryName = categoriesModel[indexPath.row].name else { return }
             print(categoryName)
             self.articlesModel.removeAll()
+            Constants.currentPage = 1
             self.getArticles(pagination: false,
-                             page: 1,
+                             page: Constants.currentPage,
                              showActivityIndicator: true,
                              countryName: Constants.currentCountry,
                              categoryName: categoryName)
@@ -355,8 +352,9 @@ extension ArticleListViewController: UICollectionViewDelegate {
             guard let countryName = countriesModel[indexPath.row].name else { return }
             print(countryName)
             self.articlesModel.removeAll()
+            Constants.currentPage = 1
             self.getArticles(pagination: false,
-                             page: 1,
+                             page: Constants.currentPage,
                              showActivityIndicator: true,
                              countryName: countryName,
                              categoryName: Constants.currentCategory

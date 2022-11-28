@@ -32,33 +32,22 @@ class ArticlesCustomTableViewCell: UITableViewCell {
         saveToFavouritesButton.layer.cornerRadius = 2
     }
 
-    // Func configure with home articles
-    func configure(with model: ArticlesModel?) {
-        self.titleLabel.text = model?.title
-        self.descriptionLabel.text = model?.description
-        self.sourceLabel.text = model?.source?.name
-        self.authorLabel.text = model?.author
+    // MARK: - Func configure with viewModel (API model / CoreData Model)
+    func configure(with viewModel: ArticlesCustomTableViewCellViewModel) {
+        self.titleLabel.text = viewModel.titleLabel
+        self.descriptionLabel.text = viewModel.descriptionLabel
+        self.sourceLabel.text = viewModel.sourceLabel
+        self.authorLabel.text = viewModel.authorLabel
+        if viewModel.urlToImage != nil {
+            guard let imageString = viewModel.urlToImage else { return }
 
-        guard let imageString = model?.urlToImage else { return }
-
-        let imageURL = URL(string: imageString)
-        self.articleImage.kf.indicatorType = .activity
-        self.articleImage.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
-    }
-
-    // Func configure with Core Data articles
-    func configureCoreData(with coreDataArticleModel: CDArticle) {
-        self.titleLabel.text = coreDataArticleModel.title
-        self.descriptionLabel.text = coreDataArticleModel.descriptionText
-        self.sourceLabel.text = coreDataArticleModel.source
-        self.authorLabel.text = coreDataArticleModel.author
-
-        guard let imageString = coreDataArticleModel.urlToImage else { return }
-
-        let imageURL = URL(string: imageString)
-        self.articleImage.kf.indicatorType = .activity
-        self.articleImage.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
+            let imageURL = URL(string: imageString)
+            self.articleImage?.kf.indicatorType = .activity
+            self.articleImage?.kf.setImage(with: imageURL, options: [.transition(.fade(0.5))])
+        } else {
+            articleImage?.image = UIImage(named: "pecodeLogo")
         }
+    }
 
     @IBAction func saveToFavouritesButtonTapped(_ sender: Any) {
         if buttonTogled == false {
