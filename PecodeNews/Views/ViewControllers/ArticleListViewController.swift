@@ -47,7 +47,7 @@ class ArticleListViewController: UIViewController {
 // MARK: - Work with TableView
 extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.countArticles()
+        self.viewModel.articlesModel.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +55,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        viewModel.setupPaginationForTableView(indexPath: indexPath) { [weak self] in
+        viewModel.setupPagination(indexPath: indexPath) { [weak self] in
             guard let self = self else { return }
 
             self.articlesTableView.tableFooterView = SpinnerFooterCell.shared.createSpinnerFooter(
@@ -73,7 +73,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.tableViewHeight
+        400
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

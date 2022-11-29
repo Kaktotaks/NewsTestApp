@@ -15,46 +15,115 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
         return value
     }()
 
-    private var viewModel = SearchArticlesViewControllerViewModel()
+    private var filteredArticles: [ArticlesModel] = []
+
+    // swiftlint:disable force_cast
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // swiftlint:enable force_cast
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.setUpSearchTableView(viewController: self, tableView: filteredArticlesTableView)
+        setUpSearchTableView()
+    }
+
+    private func setUpSearchTableView() {
+        let nib = UINib(nibName: Constants.articleCell, bundle: nil)
+        self.filteredArticlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
+        view.addSubview(filteredArticlesTableView)
+        filteredArticlesTableView.delegate = self
+        filteredArticlesTableView.dataSource = self
+        filteredArticlesTableView.frame = view.bounds
     }
 
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.updateSearchResultsInSearchArtVC(searchController: searchController, tableView: filteredArticlesTableView)
+        guard let query = searchController.searchBar.text else { return }
+
+        print(query)
+
+        RestService.shared.getAllTopArticles(country: nil,
+                                             category: nil,
+                                             query: query.trimmingCharacters(in: .whitespaces),
+                                             page: 1, limit: 10) { [weak self] articles in
+            guard let self = self else { return }
+
+            self.filteredArticles = articles
+            self.filteredArticlesTableView.reloadData()
+        }
     }
 }
 
 extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.countFilteredArticles()
+        self.filteredArticles.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.configureCellForRowAtForTableView(viewController: self,
-                                                    tableView: filteredArticlesTableView,
-                                                    cellForRowAt: indexPath
-        )
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.articleCell) as? ArticlesCustomTableViewCell
+        else {
+            return UITableViewCell()
+        }
+
+        cell.configure(with: ArticlesCustomTableViewCellViewModel(with: filteredArticles[indexPath.row]))
+        cell.selectionStyle = .none
+
+        cell.delegate = self
+        cell.tag = indexPath.row
+        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.tableViewHeight
+        400
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.presentWebViewViewController(indexPath: indexPath, viewController: self)
+        if
+            let stringURL = filteredArticles[indexPath.row].url,
+            let artilleURL = URL(string: stringURL) {
+
+            let articleTitle = filteredArticles[indexPath.row].title
+            let webVC = WebViewViewController(url: artilleURL, title: articleTitle)
+            let navVC = UINavigationController(rootViewController: webVC)
+            self.present(navVC, animated: true)
+        } else {
+            print("No url was found")
+            let noURLalert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                title: Constants.TemporaryAlertAnswers.NoURLArticle,
+                message: nil, preferredStyle: .actionSheet,
+                forTime: 1.0
+            )
+            self.present(noURLalert, animated: true)
+            return
+        }
     }
 }
 
 extension SearchArticlesViewController: ArticlesCustomTableViewCellDelegate {
     func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
-        viewModel.deleteArticleFromFavourites(viewController: self)
+        //
     }
 
     func saveToFavouritesButtonTapped(tappedForItem item: Int) {
-        viewModel.saveArticleToFavourites(viewController: self, item: item)
+        let article = filteredArticles[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article.title
+        cdArticle.urlToImage = article.urlToImage
+        cdArticle.author = article.author
+        cdArticle.descriptionText = article.description
+        cdArticle.source = article.source?.name
+        cdArticle.webURL = article.url
+
+        // Save in Core Data action
+        MyCoreDataManager.shared.cdSave(self.context)
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: Constants.TemporaryAlertAnswers.articleAdded,
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+
+        present(alert, animated: true)
     }
 }
