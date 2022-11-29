@@ -31,7 +31,7 @@ class RestService {
         completion: @escaping(([ArticlesModel]) -> Void)
     ) {
 
-        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.apiKey)"
+        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.thirdApiKey)"
         if let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
 
             AF.request(
