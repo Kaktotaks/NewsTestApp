@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 class WebViewViewController: UIViewController {
-    // MARK: - Constants
+    // Constants and Variables
     private let webView: WKWebView = {
         let preferences = WKWebpagePreferences()
         preferences.allowsContentJavaScript = true
@@ -34,7 +34,7 @@ class WebViewViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - UI life cycle
+    // UI life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +49,7 @@ class WebViewViewController: UIViewController {
         webView.load(URLRequest(url: url))
     }
 
+    // Methods
     private func configureProgressView() {
         // Add tool bar with progress view
         progressView = UIProgressView(progressViewStyle: .bar)
@@ -95,6 +96,7 @@ class WebViewViewController: UIViewController {
     }
 }
 
+// Setup progress view
 extension WebViewViewController: WKNavigationDelegate {
     override func observeValue(
         forKeyPath keyPath: String?,

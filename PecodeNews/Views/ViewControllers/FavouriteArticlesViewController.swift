@@ -8,8 +8,8 @@
 import UIKit
 
 class FavouriteArticlesViewController: UIViewController {
-    @IBOutlet weak var articlesTableView: UITableView!
-
+    // Constants and Variables
+    @IBOutlet private weak var articlesTableView: UITableView!
     private var favouriteArticles: [CDArticle] = []
     var articleToRemove: CDArticle?
 
@@ -17,6 +17,7 @@ class FavouriteArticlesViewController: UIViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
 
+    // UI life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +31,7 @@ class FavouriteArticlesViewController: UIViewController {
         self.favouriteArticles = getArticles()
     }
 
+    // Methods
     private func configureNavigationBar() {
         title = "Favourite Articles"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -65,9 +67,10 @@ class FavouriteArticlesViewController: UIViewController {
    }
 }
 
+// MARK: - Work with tableView DataSource/Delegate methods
 extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favouriteArticles.count
+        favouriteArticles.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -87,7 +90,9 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
         return cell
     }
 
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
         // create swipe action
         let action = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
 
@@ -105,11 +110,11 @@ extension FavouriteArticlesViewController: UITableViewDelegate, UITableViewDataS
     }
 
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
+        .delete
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        400
+        Constants.tableViewHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

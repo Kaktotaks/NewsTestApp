@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class RestService {
-    private enum Constants {
+    private enum APIConstants {
         static let mainURL = "https://newsapi.org/v2/top-headlines?"
         static let apiKey = "a948c415d8ca45329ec98ab6850cdc31"
         static let secondApiKey = "950819fa59cc45119d45f608793c70da"
@@ -31,7 +31,7 @@ class RestService {
         completion: @escaping(([ArticlesModel]) -> Void)
     ) {
 
-        let url = "\(Constants.mainURL)\(path)&apiKey=\(Constants.thirdApiKey)"
+        let url = "\(APIConstants.mainURL)\(path)&apiKey=\(APIConstants.secondApiKey)"
         if let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
 
             AF.request(

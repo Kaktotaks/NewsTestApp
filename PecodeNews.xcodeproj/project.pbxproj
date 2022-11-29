@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E434459D2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */; };
 		E434459F2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */; };
-		E43445A32934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */; };
 		E454DB60292643D500A03850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB5F292643D500A03850 /* AppDelegate.swift */; };
 		E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB61292643D500A03850 /* SceneDelegate.swift */; };
 		E454DB64292643D500A03850 /* ArticleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB63292643D500A03850 /* ArticleListViewController.swift */; };
@@ -46,7 +45,6 @@
 /* Begin PBXFileReference section */
 		E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCustomTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
-		E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListViewControllerViewModel.swift; sourceTree = "<group>"; };
 		E454DB5C292643D500A03850 /* PecodeNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PecodeNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E454DB5F292643D500A03850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E454DB61292643D500A03850 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 		E43445992933D5C700DFEB4B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				E43445A22934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift */,
 				E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */,
 				E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */,
 			);
@@ -163,6 +160,7 @@
 				E43445992933D5C700DFEB4B /* ViewModels */,
 				E454DB7629265C4D00A03850 /* Managers */,
 				E454DB7729265CE900A03850 /* Common */,
+				E454DB862926A6DE00A03850 /* Constants.swift */,
 				E454DB6D292643D700A03850 /* Info.plist */,
 				E454DBA8292A82CB00A03850 /* PecodeNews.xcdatamodeld */,
 			);
@@ -195,7 +193,6 @@
 			children = (
 				E454DB7C2926A1A900A03850 /* ArticlesModel */,
 				E4793529292E177600DBCF13 /* ArticlesCategories */,
-				E454DB862926A6DE00A03850 /* Constants.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,7 +202,6 @@
 			children = (
 				E4FB4F082932AD030098B58F /* ViewManagers */,
 				E43445982933C90A00DFEB4B /* DataManagers */,
-				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -261,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				E43445972933C89C00DFEB4B /* ActivityIndicator */,
+				E454DBA4292994C900A03850 /* MyAlertManager.swift */,
 				E4793531292E1CB500DBCF13 /* SpinnerFooterCell.swift */,
 				E4FB4F0B29337C880098B58F /* GradientView.swift */,
 			);
@@ -397,7 +394,6 @@
 				E4793526292CD47C00DBCF13 /* RestService.swift in Sources */,
 				E479352D292E182800DBCF13 /* CategoriesModel.swift in Sources */,
 				E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */,
-				E43445A32934CDFC00DFEB4B /* ArticleListViewControllerViewModel.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

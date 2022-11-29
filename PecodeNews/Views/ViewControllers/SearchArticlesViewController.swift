@@ -8,25 +8,27 @@
 import UIKit
 
 class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
+    // Constants and Variables
     private let filteredArticlesTableView: UITableView = {
         let value = UITableView()
         value.translatesAutoresizingMaskIntoConstraints = false
         value.separatorStyle = .none
         return value
     }()
-
     private var filteredArticles: [ArticlesModel] = []
 
     // swiftlint:disable force_cast
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
 
+    // UI life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUpSearchTableView()
     }
 
+    // Methods
     private func setUpSearchTableView() {
         let nib = UINib(nibName: Constants.articleCell, bundle: nil)
         self.filteredArticlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
@@ -44,7 +46,9 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
         RestService.shared.getAllTopArticles(country: nil,
                                              category: nil,
                                              query: query.trimmingCharacters(in: .whitespaces),
-                                             page: 1, limit: 10) { [weak self] articles in
+                                             page: 1,
+                                             limit: 10
+        ) { [weak self] articles in
             guard let self = self else { return }
 
             self.filteredArticles = articles
@@ -53,6 +57,7 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
     }
 }
 
+// MARK: - Work with tableView DataSource/Delegate methods
 extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.filteredArticles.count
@@ -74,7 +79,7 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        400
+        Constants.tableViewHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -93,15 +98,26 @@ extension SearchArticlesViewController: UITableViewDelegate, UITableViewDataSour
                 message: nil, preferredStyle: .actionSheet,
                 forTime: 1.0
             )
+
             self.present(noURLalert, animated: true)
             return
         }
     }
 }
 
+// MARK: - Work with custom Delegates
 extension SearchArticlesViewController: ArticlesCustomTableViewCellDelegate {
     func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
-        //
+        // Fake deletion article
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: Constants.TemporaryAlertAnswers.articleDelited,
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+
+        present(alert, animated: true)
     }
 
     func saveToFavouritesButtonTapped(tappedForItem item: Int) {

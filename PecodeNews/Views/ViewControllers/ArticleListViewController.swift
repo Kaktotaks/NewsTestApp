@@ -8,6 +8,7 @@
 import UIKit
 
 class ArticleListViewController: UIViewController {
+    // Constants and Variables
     @IBOutlet private weak var upNavButton: UIButton!
     @IBOutlet private weak var articlesTableView: UITableView!
     @IBOutlet private weak var articleSettingsView: UIView!
@@ -35,6 +36,7 @@ class ArticleListViewController: UIViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
 
+    // UI life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,7 +45,7 @@ class ArticleListViewController: UIViewController {
         configureCollectionView()
         getArticles(
             pagination: false,
-            page: 1,
+            page: Constants.currentPage,
             showActivityIndicator: true,
             countryName: Constants.currentCountry,
             categoryName: Constants.currentCategory
@@ -53,6 +55,7 @@ class ArticleListViewController: UIViewController {
         scrollViewDidScroll(articlesTableView)
     }
 
+    // Methods
     @IBAction func upnavButtonTapped(_ sender: Any) {
         let topRow = IndexPath(row: 0, section: 0)
 
@@ -90,11 +93,7 @@ class ArticleListViewController: UIViewController {
     }
 
     @objc private func didPullRefresh() {
-        refreshArticles()
-    }
-
-    private func refreshArticles() {
-        // refresh data here
+        // Refresh data here
         self.articlesTableView.refreshControl?.beginRefreshing()
         print("Start refreshing")
 
@@ -110,7 +109,7 @@ class ArticleListViewController: UIViewController {
         self.articlesTableView.refreshControl?.endRefreshing()
     }
 
-    // SearchingSetup method
+    // Setup UISearchController method
     private func setUpSearchController() {
         let searchArtVC = SearchArticlesViewController()
         let searchController = UISearchController(searchResultsController: searchArtVC)
@@ -121,13 +120,13 @@ class ArticleListViewController: UIViewController {
         definesPresentationContext = true
     }
 
-    // APICall methods
+    // APICall method
     private func getArticles(pagination: Bool = false,
                              page: Int = Constants.currentPage,
                              showActivityIndicator: Bool = false,
                              countryName: String? = "us",
-                             categoryName: String? = nil) {
-        if showActivityIndicator {
+                             categoryName: String? = nil
+    ) { if showActivityIndicator {
             ActivityIndicatorManager.shared.showIndicator(.magazineAnimation)
         }
 
@@ -138,7 +137,8 @@ class ArticleListViewController: UIViewController {
                 category: categoryName,
                 query: nil,
                 page: page,
-                limit: 5) { [weak self] articles in
+                limit: 5
+            ) { [weak self] articles in
                     guard let self = self else { return }
 
                     self.articlesModel.append(contentsOf: articles)
@@ -163,7 +163,7 @@ class ArticleListViewController: UIViewController {
     }
 }
 
-// MARK: - Work with TableView
+// MARK: - Work with tableView DataSource/Delegate methods
 extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.articlesModel.count
@@ -212,7 +212,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        400
+        Constants.tableViewHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -238,7 +238,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
 
-    // Configure aperiance upButton + settingView
+    // Configure appearance upButton + settingView
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -257,51 +257,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
-// MARK: - Work with Delegates
-extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
-    func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
-        let favoutiteVC = FavouriteArticlesViewController()
-        if
-            let storedArticle = favoutiteVC.articleToRemove {
-            MyCoreDataManager.shared.deleteCoreDataObjct(object: storedArticle, context: self.context) {
-                //
-            }
-        }
-
-        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
-            title: nil,
-            message: "Aticle was deleted!",
-            preferredStyle: .actionSheet,
-            forTime: 1.0
-        )
-        present(alert, animated: true)
-    }
-
-    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
-        let article = articlesModel[item]
-        let cdArticle = CDArticle(context: self.context)
-        cdArticle.title = article.title
-        cdArticle.urlToImage = article.urlToImage
-        cdArticle.author = article.author
-        cdArticle.descriptionText = article.description
-        cdArticle.source = article.source?.name
-        cdArticle.webURL = article.url
-
-        // Save in Core Data action
-        MyCoreDataManager.shared.cdSave(self.context)
-
-        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
-            title: nil,
-            message: Constants.TemporaryAlertAnswers.articleAdded,
-            preferredStyle: .actionSheet,
-            forTime: 1.0
-        )
-
-        present(alert, animated: true)
-    }
-}
-
-// MARK: - CollectionView extensions
+// MARK: - Work with collectionView DataSource/Delegate methods
 extension ArticleListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
@@ -333,10 +289,8 @@ extension ArticleListViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - UICollectionViewDelegate
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         if self.categorySwitcher == 1 {
             guard let categoryName = categoriesModel[indexPath.row].name else { return }
             print(categoryName)
@@ -370,5 +324,43 @@ extension ArticleListViewController: UICollectionViewDelegate {
             secondCell?.indicatorView.isHidden = true
             lastActiveIndex = indexPath
         }
+    }
+}
+
+// MARK: - Work with custom Delegates
+extension ArticleListViewController: ArticlesCustomTableViewCellDelegate {
+    func deleteFromFavouritesButtonTapped(tappedForItem item: Int) {
+        // Fake deletion article
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: "Aticle was deleted!",
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+        present(alert, animated: true)
+    }
+
+    func saveToFavouritesButtonTapped(tappedForItem item: Int) {
+        let article = articlesModel[item]
+        let cdArticle = CDArticle(context: self.context)
+        cdArticle.title = article.title
+        cdArticle.urlToImage = article.urlToImage
+        cdArticle.author = article.author
+        cdArticle.descriptionText = article.description
+        cdArticle.source = article.source?.name
+        cdArticle.webURL = article.url
+
+        // Save in Core Data action
+        MyCoreDataManager.shared.cdSave(self.context)
+
+        let alert = MyAlertManager.shared.presentTemporaryInfoAlert(
+            title: nil,
+            message: Constants.TemporaryAlertAnswers.articleAdded,
+            preferredStyle: .actionSheet,
+            forTime: 1.0
+        )
+
+        present(alert, animated: true)
     }
 }
