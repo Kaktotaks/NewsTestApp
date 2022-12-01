@@ -23,4 +23,6 @@ enum Constants {
 
     static var currentCountry = "us"
     static var currentCategory = "general"
+
+    static var somethingWentWrongAnswear = "Something went wrong:"
 }

@@ -48,11 +48,18 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
                                              query: query.trimmingCharacters(in: .whitespaces),
                                              page: 1,
                                              limit: 10
-        ) { [weak self] articles in
+        ) { [weak self] result in
             guard let self = self else { return }
 
-            self.filteredArticles = articles
-            self.filteredArticlesTableView.reloadData()
+            switch result {
+            case .success(let articles):
+                DispatchQueue.main.async {
+                    self.filteredArticles = articles
+                    self.filteredArticlesTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
 }

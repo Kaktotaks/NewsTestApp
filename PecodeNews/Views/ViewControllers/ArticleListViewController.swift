@@ -125,8 +125,10 @@ class ArticleListViewController: UIViewController {
                              page: Int = Constants.currentPage,
                              showActivityIndicator: Bool = false,
                              countryName: String? = "us",
-                             categoryName: String? = nil
-    ) { if showActivityIndicator {
+                             categoryName: String? = nil,
+                             completed: ((Bool) -> Void)? = nil
+    ) {
+        if showActivityIndicator {
             ActivityIndicatorManager.shared.showIndicator(.magazineAnimation)
         }
 
@@ -138,15 +140,35 @@ class ArticleListViewController: UIViewController {
                 query: nil,
                 page: page,
                 limit: 5
-            ) { [weak self] articles in
-                    guard let self = self else { return }
+            ) { [weak self] result in
+                guard let self = self else { return }
 
+                func hideAll() {
+                    ActivityIndicatorManager.shared.hide()
+                    self.articlesTableView.tableFooterView = nil
+                }
+
+                switch result {
+                case .success(let articles):
                     self.articlesModel.append(contentsOf: articles)
                     DispatchQueue.main.async {
+                        hideAll()
                         self.articlesTableView.reloadData()
-                        self.articlesTableView.tableFooterView = nil
-                        ActivityIndicatorManager.shared.hide()
                     }
+                    completed?(true)
+                case .failure(let error):
+                    let noInternetConnectionAlert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                        title: Constants.somethingWentWrongAnswear,
+                        message: error.localizedDescription,
+                        preferredStyle: .actionSheet,
+                        forTime: 10.0)
+
+                    DispatchQueue.main.async {
+                        hideAll()
+                        self.present(noInternetConnectionAlert, animated: true)
+                    }
+                    completed?(false)
+                }
             }
         }
     }

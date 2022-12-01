@@ -28,9 +28,8 @@ class RestService {
         params: [String: Any] = [:],
         method: HTTPMethod = .get,
         encoding: ParameterEncoding = URLEncoding.default,
-        completion: @escaping(([ArticlesModel]) -> Void)
+        completion: @escaping((Result<[ArticlesModel], Error>) -> Void)
     ) {
-
         let url = "\(APIConstants.mainURL)\(path)&apiKey=\(APIConstants.secondApiKey)"
         if let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
 
@@ -49,10 +48,11 @@ class RestService {
                     let decoder = JSONDecoder()
                     if let data = try? decoder.decode(ArticlesResponseModel.self, from: response.data ?? .empty) {
                         let articles = data.articles ?? []
-                        completion(articles)
+                        completion(.success(articles))
                     }
 
                 case .failure(let error):
+                    completion(.failure(error))
                     print("Error while getting TopArticles request: \(error.localizedDescription)")
                 }
             }
@@ -66,7 +66,7 @@ class RestService {
         query: String? = nil,
         page: Int = 1,
         limit: Int = 5,
-        completionHandler: @escaping(([ArticlesModel]) -> Void)
+        completionHandler: @escaping(Result<[ArticlesModel], Error>) -> Void
     ) {
         var path = "pageSize=\(limit)&page=\(page)"
 
@@ -88,11 +88,15 @@ class RestService {
             isPaginating = true
         }
 
-            self.getJsonResponse(path) { articles in
-                completionHandler(articles)
-                if pagination {
-                    self.isPaginating = false
-                }
+        self.getJsonResponse(path) { [weak self] result in
+            switch result {
+            case .success(let articles):
+                completionHandler(.success(articles))
+            case .failure(let error):
+                completionHandler(.failure(error))
             }
+
+            self?.isPaginating = false
+        }
     }
 }

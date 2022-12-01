@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E434459D2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */; };
 		E434459F2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */; };
+		E43445A729368B2A00DFEB4B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43445A629368B2A00DFEB4B /* APIService.swift */; };
 		E454DB60292643D500A03850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB5F292643D500A03850 /* AppDelegate.swift */; };
 		E454DB62292643D500A03850 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB61292643D500A03850 /* SceneDelegate.swift */; };
 		E454DB64292643D500A03850 /* ArticleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E454DB63292643D500A03850 /* ArticleListViewController.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		E434459C2933D6DE00DFEB4B /* ArticlesCustomTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCustomTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		E434459E2934BA3000DFEB4B /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		E43445A629368B2A00DFEB4B /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		E454DB5C292643D500A03850 /* PecodeNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PecodeNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E454DB5F292643D500A03850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E454DB61292643D500A03850 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				E454DBB8292A8FC700A03850 /* MyCoreDataManager.swift */,
 				E4793525292CD47C00DBCF13 /* RestService.swift */,
+				E43445A629368B2A00DFEB4B /* APIService.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				E4793526292CD47C00DBCF13 /* RestService.swift in Sources */,
 				E479352D292E182800DBCF13 /* CategoriesModel.swift in Sources */,
 				E454DBB9292A8FC700A03850 /* MyCoreDataManager.swift in Sources */,
+				E43445A729368B2A00DFEB4B /* APIService.swift in Sources */,
 				E454DB872926A6DE00A03850 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
