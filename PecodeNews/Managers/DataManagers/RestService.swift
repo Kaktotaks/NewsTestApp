@@ -17,6 +17,7 @@ class RestService {
     }
 
     public var isPaginating = false
+    public var totalRezults = 0
 
     static let shared: RestService = .init()
 
@@ -49,6 +50,8 @@ class RestService {
                     if let data = try? decoder.decode(ArticlesResponseModel.self, from: response.data ?? .empty) {
                         let articles = data.articles ?? []
                         completion(.success(articles))
+                        self.totalRezults = data.totalResults ?? 0
+                        print("TOTAL REZULTS NOW IS: \(self.totalRezults)")
                     }
 
                 case .failure(let error):

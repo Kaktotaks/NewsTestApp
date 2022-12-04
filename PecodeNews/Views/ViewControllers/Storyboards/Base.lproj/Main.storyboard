@@ -20,15 +20,42 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pkF-Lz-MM0">
-                                <rect key="frame" x="0.0" y="155" width="393" height="697"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loaderCell" id="B9F-A7-OYW">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B9F-A7-OYW" id="LvR-ZK-2dj">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading more articles..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFg-y2-KA1">
+                                                    <rect key="frame" x="20" y="15" width="353" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="JZD-Va-wGj"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="cFg-y2-KA1" firstAttribute="centerX" secondItem="LvR-ZK-2dj" secondAttribute="centerX" id="62U-H1-7yW"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cFg-y2-KA1" secondAttribute="trailing" id="9U1-bd-CkF"/>
+                                                <constraint firstItem="cFg-y2-KA1" firstAttribute="centerY" secondItem="LvR-ZK-2dj" secondAttribute="centerY" id="GwY-vS-N4u"/>
+                                                <constraint firstItem="cFg-y2-KA1" firstAttribute="leading" secondItem="LvR-ZK-2dj" secondAttribute="leadingMargin" id="RpG-q3-fpa"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="K5a-bx-eAN" id="IPW-MB-cU0"/>
                                     <outlet property="delegate" destination="K5a-bx-eAN" id="vAS-B7-872"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thJ-OP-fG3" customClass="GradientView" customModule="PecodeNews" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="155" width="393" height="35"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="35"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lEE-R7-Qfk">
                                         <rect key="frame" x="92" y="0.0" width="301" height="35"/>

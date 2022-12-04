@@ -47,7 +47,7 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
                                              category: nil,
                                              query: query.trimmingCharacters(in: .whitespaces),
                                              page: 1,
-                                             limit: 10
+                                             limit: Constants.pageLimit
         ) { [weak self] result in
             guard let self = self else { return }
 
@@ -59,6 +59,14 @@ class SearchArticlesViewController: UIViewController, UISearchResultsUpdating {
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+                let noInternetConnectionAlert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                    title: Constants.somethingWentWrongAnswear,
+                    message: error.localizedDescription,
+                    preferredStyle: .actionSheet,
+                    forTime: 10.0)
+                DispatchQueue.main.async {
+                    self.present(noInternetConnectionAlert, animated: true)
+                }
             }
         }
     }

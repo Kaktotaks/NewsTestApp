@@ -8,7 +8,7 @@
 import UIKit
 
 class ArticleListViewController: UIViewController {
-    // Constants and Variables
+    // MARK: - Constants and Variables
     @IBOutlet private weak var upNavButton: UIButton!
     @IBOutlet private weak var articlesTableView: UITableView!
     @IBOutlet private weak var articleSettingsView: UIView!
@@ -18,9 +18,7 @@ class ArticleListViewController: UIViewController {
     private var articlesModel: [ArticlesModel] = []
     private var countriesModel = CountriesModel.countriesList
     private var categoriesModel = CategoriesModel.categoriesList
-
     private var categorySwitcher = 0
-    private var lastActiveIndex: IndexPath = [1, 0]
 
     private let searchController = UISearchController(searchResultsController: SearchArticlesViewController())
 
@@ -36,7 +34,12 @@ class ArticleListViewController: UIViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // swiftlint:enable force_cast
 
-    // UI life cycle
+    enum TableSection: Int {
+        case articlesList
+        case loader
+    }
+
+    // MARK: - UI life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,8 +63,9 @@ class ArticleListViewController: UIViewController {
         let topRow = IndexPath(row: 0, section: 0)
 
         self.articlesTableView.scrollToRow(at: topRow,
-                                   at: .top,
-                                   animated: true)
+                                           at: .top,
+                                           animated: true
+        )
     }
 
     // Setup refreshControl
@@ -73,7 +77,8 @@ class ArticleListViewController: UIViewController {
     }
 
     private func setupFilteredByButton() {
-        let categoriesMenu = UIMenu(title: "", children: [
+        let categoriesMenu = UIMenu(title: "",
+                                    children: [
             UIAction(title: "Countries",
                      image: UIImage(systemName: "flag")) { _ in
                          print("Countries")
@@ -86,14 +91,15 @@ class ArticleListViewController: UIViewController {
                          self.categorySwitcher = 1
                          self.categoriesCollectionView.reloadData()
             }
-        ])
+        ]
+    )
 
         filteredByButton.layer.cornerRadius = 4
         filteredByButton.menu = categoriesMenu
     }
 
+    // Refreshing data here
     @objc private func didPullRefresh() {
-        // Refresh data here
         self.articlesTableView.refreshControl?.beginRefreshing()
         print("Start refreshing")
 
@@ -106,7 +112,7 @@ class ArticleListViewController: UIViewController {
             countryName: Constants.currentCountry,
             categoryName: Constants.currentCategory
         )
-        self.articlesTableView.refreshControl?.endRefreshing()
+        self.articlesTableView.refreshControl?.endRefreshing() // temporary solution (because of the bug)
     }
 
     // Setup UISearchController method
@@ -125,55 +131,46 @@ class ArticleListViewController: UIViewController {
                              page: Int = Constants.currentPage,
                              showActivityIndicator: Bool = false,
                              countryName: String? = "us",
-                             categoryName: String? = nil,
-                             completed: ((Bool) -> Void)? = nil
+                             categoryName: String? = nil
     ) {
         if showActivityIndicator {
             ActivityIndicatorManager.shared.showIndicator(.magazineAnimation)
         }
 
-        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 1 : 0)) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 2 : 0)) {
             RestService.shared.getAllTopArticles(
                 pagination: pagination,
                 country: countryName,
                 category: categoryName,
                 query: nil,
                 page: page,
-                limit: 5
+                limit: Constants.pageLimit
             ) { [weak self] result in
                 guard let self = self else { return }
-
-                func hideAll() {
-                    ActivityIndicatorManager.shared.hide()
-                    self.articlesTableView.tableFooterView = nil
-                }
 
                 switch result {
                 case .success(let articles):
                     self.articlesModel.append(contentsOf: articles)
                     DispatchQueue.main.async {
-                        hideAll()
+                        ActivityIndicatorManager.shared.hide()
                         self.articlesTableView.reloadData()
                     }
-                    completed?(true)
                 case .failure(let error):
-                    let noInternetConnectionAlert = MyAlertManager.shared.presentTemporaryInfoAlert(
+                    let somethingWentWrongAlert = MyAlertManager.shared.presentTemporaryInfoAlert(
                         title: Constants.somethingWentWrongAnswear,
                         message: error.localizedDescription,
                         preferredStyle: .actionSheet,
                         forTime: 10.0)
-
                     DispatchQueue.main.async {
-                        hideAll()
-                        self.present(noInternetConnectionAlert, animated: true)
+                        ActivityIndicatorManager.shared.hide()
+                        self.present(somethingWentWrongAlert, animated: true)
                     }
-                    completed?(false)
                 }
             }
         }
     }
 
-    // TableView methods
+    // TableView/CollectionView registr methods
     private func configureTableView() {
         let nib = UINib(nibName: Constants.articleCell, bundle: nil)
         self.articlesTableView.register(nib, forCellReuseIdentifier: Constants.articleCell)
@@ -187,11 +184,31 @@ class ArticleListViewController: UIViewController {
 
 // MARK: - Work with tableView DataSource/Delegate methods
 extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.articlesModel.count
+        guard let listSection = TableSection(rawValue: section) else { return 0 }
+
+        switch listSection {
+        case .articlesList:
+            return self.articlesModel.count
+        case .loader:
+            return self.articlesModel.count >= Constants.pageLimit ? 1 : 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let section = TableSection(rawValue: indexPath.section)
+        else {
+            return UITableViewCell()
+        }
+        var totalRezults = RestService.shared.totalRezults
+
+        switch section {
+        case .articlesList:
             guard
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: Constants.articleCell
@@ -200,41 +217,57 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
                 return UITableViewCell()
             }
 
-            cell.selectionStyle = .none
-        cell.configure(with: ArticlesCustomTableViewCellViewModel(with: articlesModel[indexPath.row]))
-
+            cell.configure(with: ArticlesCustomTableViewCellViewModel(with: articlesModel[indexPath.row]))
             cell.delegate = self
             cell.tag = indexPath.row
+            cell.selectionStyle = .none
             return cell
+        case .loader:
+            guard
+                let cell = tableView.dequeueReusableCell(withIdentifier: "loaderCell") else {
+                return UITableViewCell()
+            }
+
+            cell.selectionStyle = .none
+
+            if totalRezults > articlesModel.count {
+                return cell
+            }
+        }
+
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if Constants.currentPage >= Constants.totalPage && indexPath.row == articlesModel.count - 1 {
-            Constants.currentPage += 1
-            print("Current page now is: \(Constants.currentPage)")
+        guard let section = TableSection(rawValue: indexPath.section) else { return }
+        guard !self.articlesModel.isEmpty else { return }
 
+        if section == .loader {
             var isPaginatint = RestService.shared.isPaginating
-
             guard !isPaginatint else {
                 print("We are already paginating more data")
                 return
             }
 
-            self.articlesTableView.tableFooterView = SpinnerFooterCell.shared.createSpinnerFooter(
-                viewController: self,
-                tableView: articlesTableView
-            )
-
-            getArticles(pagination: true,
-                        page: Constants.currentPage,
-                        countryName: Constants.currentCountry,
-                        categoryName: Constants.currentCategory
-            )
+                print("load new data..")
+                Constants.currentPage += 1
+                print("Current page now is: \(Constants.currentPage)")
+                getArticles(pagination: true,
+                            page: Constants.currentPage,
+                            countryName: Constants.currentCountry,
+                            categoryName: Constants.currentCategory
+                )
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.tableViewHeight
+        let section = TableSection(rawValue: indexPath.section)
+
+        if section == .loader {
+            return 60
+        }
+
+        return Constants.tableViewHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -282,7 +315,6 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Work with collectionView DataSource/Delegate methods
 extension ArticleListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         if self.categorySwitcher == 1 {
             return self.categoriesModel.count
         } else {
@@ -313,9 +345,11 @@ extension ArticleListViewController: UICollectionViewDataSource {
 
 extension ArticleListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var lastActiveIndex: IndexPath = [1, 0]
+
         if self.categorySwitcher == 1 {
             guard let categoryName = categoriesModel[indexPath.row].name else { return }
-            print(categoryName)
+
             self.articlesModel.removeAll()
             Constants.currentPage = 1
             self.getArticles(pagination: false,
@@ -326,7 +360,7 @@ extension ArticleListViewController: UICollectionViewDelegate {
             Constants.currentCategory = categoryName
         } else {
             guard let countryName = countriesModel[indexPath.row].name else { return }
-            print(countryName)
+
             self.articlesModel.removeAll()
             Constants.currentPage = 1
             self.getArticles(pagination: false,
